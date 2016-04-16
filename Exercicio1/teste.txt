@@ -1,0 +1,7 @@
+Testando leitura de arquivo, linha 1
+Testando leitura de arquivo, linha 2
+Testando leitura de arquivo, linha 3
+Testando leitura de arquivo, linha 4
+Testando leitura de arquivo, linha 5
+Testando leitura de arquivo, linha 6
+FIM DE ARQUIVO
