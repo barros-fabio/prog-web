@@ -7,17 +7,11 @@ package servlets;
 
 import bd.ConectaBD;
 import com.mysql.jdbc.PreparedStatement;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -25,20 +19,11 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author fabio
+ * @author Fabio Barros
  */
-public class CidadesA extends HttpServlet {
+public class InserirCidade extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-   
+    
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -52,14 +37,16 @@ public class CidadesA extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-  
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
-        ConectaBD conexaoBD = new ConectaBD();
-        Connection con = conexaoBD.conectaBD();
-        ArrayList<String> cidades = new ArrayList<>();
-        PreparedStatement p;
-        ResultSet rs;
+        
+        ArrayList<String> estados = new ArrayList<>();
+        estados.add("---");
+        estados.add("Paraná");
+        estados.add("São Paulo");
+        estados.add("Goiás");
+        estados.add("Rio Grande do Sul");
+        estados.add("Distrito Federal");
         
         try {
             out.println("<!DOCTYPE html>");
@@ -76,28 +63,26 @@ public class CidadesA extends HttpServlet {
             out.println("<div class=\"container\">");
             out.println("<h3>Lista de Cidades</h3>");
             out.println("<ul class=\"nav nav-tabs nav-justified\">");
-            out.println("<li class=\"active\"><a href=\"CidadesA\">A</a></li>");
+            out.println("<li><a href=\"CidadesA\">A</a></li>");
             out.println("<li><a href=\"CidadesB\">B</a></li>");
             out.println("<li><a href=\"CidadesC\">C</a></li>");
-            out.println("<li><a href=\"InserirCidade\">Inserir nova cidade</a></li>");
+            out.println("<li class=\"active\"><a href=\"InserirCidade\">Inserir nova cidade</a></li>");
             out.println("</ul>");
             out.println("<br>");
-            out.println("<ul class=\"list-group\">");
-            //cidades = conexaoBD.getData(con,); // conexão com o banco
-            
-            try{
-                p = (PreparedStatement) con.prepareStatement("Select * from cidades;");
-                rs = p.executeQuery();
-            while(rs.next())
-                cidades.add(rs.getString("nomeCidade"));
-            }catch(Exception ex){
-                System.out.println("Erro: "+ex);
-            }
-            
-            for(int i=0; i<cidades.size();i++)    
-                out.println("<li class=\"list-group-item\">"+cidades.get(i)+"</li>");
-            
-            out.println("</ul>");
+            out.println("<form role=\"form\" method=\"POST\" action = \"InserirCidade\">");
+            out.println("<div class=\"form-group\">");
+            out.println("<label for=\"usr\">Nome da Cidade:</label>");
+            out.println("<input type=\"text\" class=\"form-control\" id=\"nomeCidade\" name =\"nomeCidade\">");
+            out.println("</div>");
+            out.println("<div class=\"form-group\">");
+            out.println("<label for=\"usr\">Estado:</label>");
+            out.println("<select multiple_name = \"sel_estado\" id = \"estado\"> name = \"estado\">");
+            for(int i = 0; i<estados.size();i++)
+                out.println("<option value = \""+i+"\">"+estados.get(i)+"</option>");
+            out.println("</select>");
+            out.println("</div>");
+            out.println("<button type = \"submit\"> Enviar </button>");
+            out.println("</form>");
             out.println("</div>");
             out.println("</ul>");
             out.println("</body>");
@@ -105,7 +90,6 @@ public class CidadesA extends HttpServlet {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-    
     }
 
     /**
@@ -119,7 +103,37 @@ public class CidadesA extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        String estado, nomeCidade;
+        response.setContentType("text/html;charset=UTF-8");
+        PrintWriter out = response.getWriter();
         
+        nomeCidade = request.getParameter("nomeCidade");
+        estado = request.getParameter("estado");
+        ConectaBD conexaoBD = new ConectaBD();
+        Connection con = conexaoBD.conectaBD();
+        PreparedStatement p;
+        ResultSet rs;
+        
+        try{
+            p = (PreparedStatement) con.prepareStatement("insert into cidades (nomeCidade, estadoCidade)values ("+nomeCidade+","+estado+");");
+            rs = p.executeQuery();
+        }catch(Exception ex){
+            System.out.println("Erro: "+ex);
+        }
+        out.println("<!DOCTYPE html>");
+        out.println("<html>");
+        out.println("<head>");
+        out.println("<meta charset=\"utf-8\">");
+        out.println("</head>");
+        out.println("<body>");
+        out.println("<h1>Cidade adicionada = "+nomeCidade+"</h1>");
+        out.println("<h1>Cidade adicionada = "+estado+"</h1>");
+        out.println("<a href=\"InserirCidade\"> Voltar </a>");
+        out.println("</body>");
+        out.println("</html>");
+
+        System.out.println(nomeCidade);
+        System.out.println(estado);
     }
 
     /**
