@@ -5,6 +5,7 @@
  */
 package servlets;
 
+import bd.ConectaBD;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
@@ -38,7 +39,7 @@ public class Principal extends HttpServlet {
         PrintWriter out = response.getWriter();
         ConectaBD conexaoBD = new ConectaBD();
         Connection con = conexaoBD.conectaBD();
-        ArrayList<String> cidades = new ArrayList<>();
+        ArrayList<String> tarefas = new ArrayList<>();
         PreparedStatement p;
         ResultSet rs;
         
@@ -46,7 +47,7 @@ public class Principal extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet CidadesA</title>");    
+            out.println("<title>Servlet Lista de Tarefas</title>");    
             out.println("<meta charset=\"utf-8\">");
             out.println("<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">");
             out.println("<link rel=\"stylesheet\" href=\"http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css\">");
@@ -57,26 +58,24 @@ public class Principal extends HttpServlet {
             out.println("<div class=\"container\">");
             out.println("<h3>Lista de Cidades</h3>");
             out.println("<ul class=\"nav nav-tabs nav-justified\">");
-            out.println("<li class=\"active\"><a href=\"CidadesA\">A</a></li>");
-            out.println("<li><a href=\"CidadesB\">B</a></li>");
-            out.println("<li><a href=\"CidadesC\">C</a></li>");
-            out.println("<li><a href=\"InserirCidade\">Inserir nova cidade</a></li>");
+            out.println("<li class=\"active\"><a href=\"Principal\">Visualizar Tarefas</a></li>");
+            out.println("<li><a href=\"AdicionarTarefa\">Adicionar Nova Tarefa</a></li>");
             out.println("</ul>");
             out.println("<br>");
             out.println("<ul class=\"list-group\">");
             //cidades = conexaoBD.getData(con,); // conexão com o banco
             
             try{
-                p = (PreparedStatement) con.prepareStatement("Select * from cidades;");
+                p = (PreparedStatement) con.prepareStatement("Select * from tarefas");
                 rs = p.executeQuery();
             while(rs.next())
-                cidades.add(rs.getString("nomeCidade"));
+                tarefas.add(rs.getString(1));
             }catch(Exception ex){
                 System.out.println("Erro: "+ex);
             }
             
-            for(int i=0; i<cidades.size();i++)    
-                out.println("<li class=\"list-group-item\">"+cidades.get(i)+"</li>");
+            for(int i=0; i<tarefas.size();i++)    
+                out.println("<li class=\"list-group-item\">"+tarefas.get(i)+" <a href =\"Editar\"> Editar </a> <a href = \"Remover\"> Remover </a> </li>");
             
             out.println("</ul>");
             out.println("</div>");

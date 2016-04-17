@@ -4,9 +4,33 @@
         <servlet-name>Principal</servlet-name>
         <servlet-class>servlets.Principal</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>AdicionarTarefa</servlet-name>
+        <servlet-class>servlets.AdicionarTarefa</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>Editar</servlet-name>
+        <servlet-class>servlets.Editar</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>Remover</servlet-name>
+        <servlet-class>servlets.Remover</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Principal</servlet-name>
         <url-pattern>/Principal</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AdicionarTarefa</servlet-name>
+        <url-pattern>/AdicionarTarefa</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Editar</servlet-name>
+        <url-pattern>/Editar</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Remover</servlet-name>
+        <url-pattern>/Remover</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

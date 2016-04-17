@@ -5,19 +5,11 @@
  */
 package servlets;
 
-import bd.ConectaBD;
-import com.mysql.jdbc.*;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
+import bd.ConectaBanco;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
-import java.sql.ResultSet;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -25,20 +17,10 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author fabio
+ * @author Fabio Barros
  */
-public class CidadesA extends HttpServlet {
-
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-   
+public class AdicionarTarefa extends HttpServlet {
+    //Connection con = new ConectaBD().conectaBD();
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -52,20 +34,16 @@ public class CidadesA extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-  
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
-        ConectaBD conexaoBD = new ConectaBD();
-        Connection con = conexaoBD.conectaBD();
-        ArrayList<String> cidades = new ArrayList<>();
-        PreparedStatement p;
-        ResultSet rs;
         
+        ArrayList<String> tarefas = new ArrayList<>();
+  
         try {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet CidadesA</title>");    
+            out.println("<title>Servlet Lista de Tarefas</title>");    
             out.println("<meta charset=\"utf-8\">");
             out.println("<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">");
             out.println("<link rel=\"stylesheet\" href=\"http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css\">");
@@ -74,30 +52,28 @@ public class CidadesA extends HttpServlet {
             out.println("</head>");
             out.println("<body>");
             out.println("<div class=\"container\">");
-            out.println("<h3>Lista de Cidades</h3>");
+            out.println("<h3>Adicionar nova tarefa</h3>");
             out.println("<ul class=\"nav nav-tabs nav-justified\">");
-            out.println("<li class=\"active\"><a href=\"CidadesA\">A</a></li>");
-            out.println("<li><a href=\"CidadesB\">B</a></li>");
-            out.println("<li><a href=\"CidadesC\">C</a></li>");
-            out.println("<li><a href=\"InserirCidade\">Inserir nova cidade</a></li>");
+            out.println("<li><a href=\"Principal\">Visualizar Tarefas</a></li>");
+            out.println("<li class=\"active\"><a href=\"AdicionarTarefa\">Adicionar Nova Tarefa</a></li>");
             out.println("</ul>");
+            out.println("<form role=\"form\" method=\"POST\" action =\"AdicionarTarefa\">");
+            out.println("<div class=\"form-group\">");
+            out.println("<label for=\"usr\">Tarefa:</label>");
+            out.println("<input type=\"text\" class=\"form-control\" id=\"tarefa\" name =\"tarefa\">");
+            out.println("</div>");
+            out.println("<div class=\"form-group\">");
+            out.println("<label for=\"usr\">Status da tarefa:</label>");
             out.println("<br>");
-            out.println("<ul class=\"list-group\">");
-            //cidades = conexaoBD.getData(con,); // conexão com o banco
-            
-            try{
-                p = (PreparedStatement) con.prepareStatement("Select * from cidades;");
-                rs = p.executeQuery();
-            while(rs.next())
-                cidades.add(rs.getString("nomeCidade"));
-            }catch(Exception ex){
-                System.out.println("Erro: "+ex);
-            }
-            
-            for(int i=0; i<cidades.size();i++)    
-                out.println("<li class=\"list-group-item\">"+cidades.get(i)+"</li>");
-            
-            out.println("</ul>");
+            out.println("<label for=\"option1\">Iniciada</label>");
+            out.println("<input type=\"radio\" name=\"status\" value=\"1\" id=\"iniciada\">");
+            out.println("<label for=\"option2\">Pausada</label>");
+            out.println("<input type=\"radio\" name=\"status\" value=\"2\" id=\"pausada\">");
+            out.println("<label for=\"option3\">Finalizada</label>");
+            out.println("<input type=\"radio\" name=\"status\" value=\"3\" id=\"finalizada\">");
+            out.println("</div>");
+            out.println("<button type = \"submit\"> Enviar </button>");
+            out.println("</form>");
             out.println("</div>");
             out.println("</ul>");
             out.println("</body>");
@@ -105,7 +81,6 @@ public class CidadesA extends HttpServlet {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-    
     }
 
     /**
@@ -119,7 +94,29 @@ public class CidadesA extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        String tarefa, status;
+        response.setContentType("text/html;charset=UTF-8");
+        PrintWriter out = response.getWriter();
         
+        tarefa = request.getParameter("tarefa");
+        status = request.getParameter("status");
+        
+        ConectaBanco cbd = new ConectaBanco();
+        Connection c = cbd.conectaBD();
+        cbd.insertData(c,"INSERT INTO tarefa (tarefa,status) VALUES (?,?)",tarefa,status);
+
+        
+        out.println("<!DOCTYPE html>");
+        out.println("<html>");
+        out.println("<head>");
+        out.println("<meta charset=\"utf-8\">");
+        out.println("</head>");
+        out.println("<body>");
+        out.println("<h1>Tarefa adicionada = "+tarefa+"</h1>");
+        out.println("<h1>Status da tarefa adicionada = "+status+"</h1>");
+        out.println("<a href=\"AdicionarTarefa\"> Voltar </a>");
+        out.println("</body>");
+        out.println("</html>");
     }
 
     /**

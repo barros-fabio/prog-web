@@ -6,6 +6,7 @@
 package servlets;
 
 import bd.ConectaBD;
+import bd.ConectaBanco;
 import com.mysql.jdbc.PreparedStatement;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -76,7 +77,7 @@ public class InserirCidade extends HttpServlet {
             out.println("</div>");
             out.println("<div class=\"form-group\">");
             out.println("<label for=\"usr\">Estado:</label>");
-            out.println("<select multiple_name = \"sel_estado\" id = \"estado\"> name = \"estado\">");
+            out.println("<select multiple_name = \"sel_estado\" id = \"estado\"> name =\"estado\">");
             for(int i = 0; i<estados.size();i++)
                 out.println("<option value = \""+i+"\">"+estados.get(i)+"</option>");
             out.println("</select>");
@@ -109,17 +110,21 @@ public class InserirCidade extends HttpServlet {
         
         nomeCidade = request.getParameter("nomeCidade");
         estado = request.getParameter("estado");
-        ConectaBD conexaoBD = new ConectaBD();
-        Connection con = conexaoBD.conectaBD();
-        PreparedStatement p;
-        ResultSet rs;
         
-        try{
-            p = (PreparedStatement) con.prepareStatement("insert into cidades (nomeCidade, estadoCidade)values ("+nomeCidade+","+estado+");");
-            rs = p.executeQuery();
-        }catch(Exception ex){
-            System.out.println("Erro: "+ex);
-        }
+        ConectaBanco cbd = new ConectaBanco();
+        Connection c = cbd.conectaBD();
+        cbd.insertData(c,"INSERT INTO cidades (nomeCidade, estadoCidade) VALUES (?,?)",nomeCidade,"São Paulo");
+        
+        
+//        try{
+//            p = (PreparedStatement) con.prepareStatement("INSERT INTO cidades (nomeCidade, estadoCidade)VALUES (?,?);");
+//            p.setString(1, nomeCidade);
+//            p.setString(2, estado);
+//            p.executeUpdate();
+//            con.close();
+//        }catch(Exception ex){
+//            System.out.println("Erro: "+ex);
+//        }
         out.println("<!DOCTYPE html>");
         out.println("<html>");
         out.println("<head>");
@@ -132,8 +137,8 @@ public class InserirCidade extends HttpServlet {
         out.println("</body>");
         out.println("</html>");
 
-        System.out.println(nomeCidade);
-        System.out.println(estado);
+        
+        
     }
 
     /**

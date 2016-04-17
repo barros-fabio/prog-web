@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package conectabanco;
+package bd;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -40,11 +40,11 @@ public class ConectaBanco {
         return conexao;
     }
     
-    public void insertData(Connection conexao, String query){
+    public void insertData(Connection conexao, String query, String cidade, String estado){
         try {
             p = (PreparedStatement) conexao.prepareStatement(query);
-            p.setString(1, "Abatiá");
-            p.setString(2, "Paraná");
+            p.setString(1, cidade);
+            p.setString(2, estado);
             p.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(ConectaBanco.class.getName()).log(Level.SEVERE, null, ex);
@@ -54,12 +54,12 @@ public class ConectaBanco {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
-        // TODO code application logic here
-        ConectaBanco cbd = new ConectaBanco();
-        Connection c = cbd.conectaBD();
-        cbd.insertData(c,"INSERT INTO cidades (nomeCidade, estadoCidade) VALUES (?,?)");
-    }
+//    public static void main(String[] args) {
+//        // TODO code application logic here
+//        ConectaBanco cbd = new ConectaBanco();
+//        Connection c = cbd.conectaBD();
+//        cbd.insertData(c,"INSERT INTO cidades (nomeCidade, estadoCidade) VALUES (?,?)");
+//    }
     
 }
 
