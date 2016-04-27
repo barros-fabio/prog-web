@@ -5,12 +5,17 @@
  */
 package servlets;
 
+import bd.ConectaBD;
+import com.mysql.jdbc.*;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -50,56 +55,55 @@ public class CidadesA extends HttpServlet {
   
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
-        File arquivo;
+        ConectaBD conexaoBD = new ConectaBD();
+        Connection con = conexaoBD.conectaBD();
+        ArrayList<String> cidades = new ArrayList<>();
+        PreparedStatement p;
+        ResultSet rs;
         
-        
-        arquivo = new File("/home/fabio/NetBeansProjects/Exercicio1/src/java/cidades/CidadesA.txt");
-        
-        if(arquivo.isDirectory()){
-            String[] arquivos = arquivo.list();
-            for (String arquivo1 : arquivos) {
-                System.out.println(arquivo1);
-            }
-        }else{
-            FileReader leitor;
-            try {
-                leitor = new FileReader(arquivo);
-                BufferedReader in = new BufferedReader(leitor);
-                String line;
-                out.println("<!DOCTYPE html>");
-                out.println("<html>");
-                out.println("<head>");
-                out.println("<title>Servlet CidadesA</title>");    
-                out.println("<meta charset=\"utf-8\">");
-                out.println("<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">");
-                out.println("<link rel=\"stylesheet\" href=\"http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css\">");
-                out.println("<script src=\"https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js\"></script>");
-                out.println("<script src=\"http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js\"></script>");     
-                out.println("</head>");
-                out.println("<body>");
-                out.println("<div class=\"container\">");
-                out.println("<h3>Lista de Cidades</h3>");
-                out.println("<ul class=\"nav nav-tabs nav-justified\">");
-                out.println("<li class=\"active\"><a href=\"CidadesA\">A</a></li>");
-                out.println("<li><a href=\"CidadesB\">B</a></li>");
-                out.println("<li><a href=\"CidadesC\">C</a></li>");
-                out.println("</ul>");
-                out.println("<br>");
-                out.println("<ul class=\"list-group\">");
-                while((line = in.readLine())!= null){
-                    out.println("<li class=\"list-group-item\">"+line+"</li>");
-                }
-                out.println("</ul>");
-                out.println("</div>");
-                out.println("</ul>");
-                out.println("</body>");
-                out.println("</html>");    
-            } catch (FileNotFoundException ex) {
-                Logger.getLogger(CidadesA.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (IOException ex) {
-                Logger.getLogger(CidadesA.class.getName()).log(Level.SEVERE, null, ex);
-            } 
+        try {
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet CidadesA</title>");    
+            out.println("<meta charset=\"utf-8\">");
+            out.println("<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">");
+            out.println("<link rel=\"stylesheet\" href=\"http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css\">");
+            out.println("<script src=\"https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js\"></script>");
+            out.println("<script src=\"http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js\"></script>");     
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<div class=\"container\">");
+            out.println("<h3>Lista de Cidades</h3>");
+            out.println("<ul class=\"nav nav-tabs nav-justified\">");
+            out.println("<li class=\"active\"><a href=\"CidadesA\">A</a></li>");
+            out.println("<li><a href=\"CidadesB\">B</a></li>");
+            out.println("<li><a href=\"CidadesC\">C</a></li>");
+            out.println("<li><a href=\"InserirCidade\">Inserir nova cidade</a></li>");
+            out.println("</ul>");
+            out.println("<br>");
+            out.println("<ul class=\"list-group\">");
+            //cidades = conexaoBD.getData(con,); // conexão com o banco
             
+            try{
+                p = (PreparedStatement) con.prepareStatement("Select * from cidades;");
+                rs = p.executeQuery();
+            while(rs.next())
+                cidades.add(rs.getString("nomeCidade"));
+            }catch(Exception ex){
+                System.out.println("Erro: "+ex);
+            }
+            
+            for(int i=0; i<cidades.size();i++)    
+                out.println("<li class=\"list-group-item\">"+cidades.get(i)+"</li>");
+            
+            out.println("</ul>");
+            out.println("</div>");
+            out.println("</ul>");
+            out.println("</body>");
+            out.println("</html>");    
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
     
     }

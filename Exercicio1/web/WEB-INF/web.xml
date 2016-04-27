@@ -12,6 +12,10 @@
         <servlet-name>CidadesC</servlet-name>
         <servlet-class>servlets.CidadesC</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>InserirCidade</servlet-name>
+        <servlet-class>servlets.InserirCidade</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>CidadesA</servlet-name>
         <url-pattern>/CidadesA</url-pattern>
@@ -23,6 +27,10 @@
     <servlet-mapping>
         <servlet-name>CidadesC</servlet-name>
         <url-pattern>/CidadesC</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>InserirCidade</servlet-name>
+        <url-pattern>/InserirCidade</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

@@ -73,6 +73,7 @@ public class CidadesB extends HttpServlet {
                 out.println("<li><a href=\"CidadesA\">A</a></li>");
                 out.println("<li class=\"active\"><a href=\"CidadesB\">B</a></li>");
                 out.println("<li><a href=\"CidadesC\">C</a></li>");
+                out.println("<li><a href=\"InserirCidade\">Inserir nova cidade</a></li>");
                 out.println("</ul>");
                 out.println("<br>");
                 out.println("<ul class=\"list-group\">");

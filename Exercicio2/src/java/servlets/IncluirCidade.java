@@ -56,6 +56,7 @@ public class IncluirCidade extends HttpServlet {
         out.println("</div>");
         out.println("<div class=\"form-group\">");
         out.println("<label for=\"usr\">Estado:</label>");
+       
         out.println("<input type=\"text\" class=\"form-control\" id=\"usr\">");
         out.println("</div>");
         out.println("<button type = \"submit\"> Enviar </button>");
