@@ -43,8 +43,8 @@ public class ConectaBanco {
     public void insertData(Connection conexao, String query, String campo1, String campo2){
         try {
             p = (PreparedStatement) conexao.prepareStatement(query);
-            p.setString(2, campo1);
-            p.setString(3, campo2);
+            p.setString(1, campo1);
+            p.setString(2, campo2);
             p.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(ConectaBanco.class.getName()).log(Level.SEVERE, null, ex);
