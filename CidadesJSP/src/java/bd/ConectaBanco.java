@@ -5,10 +5,14 @@
  */
 package bd;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.sql.*;
-import java.util.ArrayList;
 
 /**
  *
@@ -20,7 +24,6 @@ public class ConectaBanco {
     private PreparedStatement p;
     private ResultSet rs;
     private ArrayList<String> cidades = new ArrayList<>();
-
    
     public ConectaBanco(){
         
@@ -43,24 +46,24 @@ public class ConectaBanco {
         return conexao;
     }
     
-    public void insertData(Connection conexao, String query, String cidade, String estado){
+    public void insertData(Connection conexao, String query, String nome, String estado){
         try {
             p = (PreparedStatement) conexao.prepareStatement(query);
-            p.setString(1, cidade);
-            p.setString(2, estado);
+            p.setString(1, nome);
             p.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(ConectaBanco.class.getName()).log(Level.SEVERE, null, ex);
         }
         
     }
+    
     public ArrayList<String> selectData(Connection conexao, String query){
         try {
             p = (PreparedStatement) conexao.prepareStatement(query);
             rs = p.executeQuery();
             
             while(rs.next())
-                cidades.add(rs.getString(1));
+                cidades.add(rs.getString(2));
             
         } catch (SQLException ex) {
             Logger.getLogger(ConectaBanco.class.getName()).log(Level.SEVERE, null, ex);
@@ -82,9 +85,3 @@ public class ConectaBanco {
     }
     
 }
-
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
