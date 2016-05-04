@@ -4,6 +4,8 @@
     Author     : fabio
 --%>
 
+<%@page import="java.sql.Connection"%>
+<%@page import="db.ConectaBanco"%>
 <%@page import="java.io.PrintWriter"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -15,8 +17,12 @@
     <body>
         <%   
             if(request.getMethod().equals("POST")){
-                out.println("<h1>"+request.getParameter("nome")+"</h1>");
-            }         
+                ConectaBanco db = new ConectaBanco();
+                Connection c = db.conectaBD();
+                db.insertData(c, "INSERT INTO Pessoa (nome) VALUES (?)", request.getParameter("nome"));
+                out.println("<h1>"+request.getParameter("nome")+" adicionado com sucesso!</h1>");
+            }  
+            
         %>
     </body>
 </html>

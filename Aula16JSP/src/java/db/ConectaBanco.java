@@ -4,7 +4,6 @@
  * and open the template in the editor.
  */
 package db;
-
 /**
  *
  * @author fabio
@@ -33,7 +32,7 @@ public class ConectaBanco {
         try {
             Class.forName("com.mysql.jdbc.Driver");
             System.out.println("Conexão estabelecida");
-            conexao = (Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/cidades", "root","root");
+            conexao = (Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/web", "root","root");
            
             
         } catch (ClassNotFoundException ex) {
@@ -48,7 +47,7 @@ public class ConectaBanco {
     public void insertData(Connection conexao, String query, String nome){
         try {
             p = (PreparedStatement) conexao.prepareStatement(query);
-            p.setString(2, nome);
+            p.setString(1, nome);
             p.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(ConectaBanco.class.getName()).log(Level.SEVERE, null, ex);
@@ -60,9 +59,10 @@ public class ConectaBanco {
      */
     public static void main(String[] args) {
         // TODO code application logic here
+        String nome = "José";
         ConectaBanco cbd = new ConectaBanco();
         Connection c = cbd.conectaBD();
-        cbd.insertData(c,"INSERT INTO cidades (nomeCidade, estadoCidade) VALUES (?,?)");
+        cbd.insertData(c,"INSERT INTO Pessoa (nome) VALUES (?)", nome);
     }
     
 }
