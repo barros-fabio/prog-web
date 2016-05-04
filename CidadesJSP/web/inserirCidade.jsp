@@ -21,16 +21,21 @@
     </ul>
     <br>
     
-    <div class="form-group">
-        <label for="usr">Nome da Cidade:</label>
-        <input type="text" class="form-control" id="nomeCidade" name ="nomeCidade">
-    </div>
+    
     
     <form role=\"form\" method=\"POST\" action = \"inserirCidade.jsp\">
         <div class="form-group">
+            <label for="usr">Nome da Cidade:</label>
+            <input type="text" class="form-control" id="nomeCidade" name ="nomeCidade">
+        </div>
+        
+        <div class="form-group">
             <label for="usr">Estado:</label>
-            <select multiple_name = "sel_estado" id = "estado"> name =\"estado\">
+            <select multiple_name = "sel_estado" id = "estado"> name ="estado">
+           
             <% 
+                
+                
                 ArrayList<String> estados = new ArrayList<String>();
                 estados.add("---");
                 estados.add("Paraná");
@@ -41,6 +46,13 @@
 
                 for(int i = 0; i<estados.size();i++)
                     out.println("<option value = "+i+">"+estados.get(i)+"</option>");
+                
+                if(request.getMethod().equals("POST")){
+                    ConectaBanco db = new ConectaBanco();
+                    Connection c = db.conectaBD();
+            
+                    db.insertData(c,"INSERT INTO cidades(nome,estado) VALUES (?,?)", request.getParameter("nomeCidade"),request.getParameter("estado"));
+                }
             %>
             </select>
         </div>
