@@ -23,7 +23,7 @@
     
     
     
-    <form role=\"form\" method=\"POST\" action = \"inserirCidade.jsp\">
+    <form role="form" method="POST" action = "inserirCidade.jsp">
         <div class="form-group">
             <label for="usr">Nome da Cidade:</label>
             <input type="text" class="form-control" id="nomeCidade" name ="nomeCidade">
@@ -31,7 +31,7 @@
         
         <div class="form-group">
             <label for="usr">Estado:</label>
-            <select multiple_name = "sel_estado" id = "estado"> name ="estado">
+            <select multiple_name = "sel_estado" id = "estado" name ="estado">
            
             <% 
                 
