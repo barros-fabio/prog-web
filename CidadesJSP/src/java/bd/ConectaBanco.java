@@ -48,8 +48,10 @@ public class ConectaBanco {
     
     public void insertData(Connection conexao, String query, String nome, String estado){
         try {
+            System.out.println("Cidade: "+nome+" Estado: "+estado);
             p = (PreparedStatement) conexao.prepareStatement(query);
             p.setString(1, nome);
+            p.setString(2, estado);
             p.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(ConectaBanco.class.getName()).log(Level.SEVERE, null, ex);
@@ -80,7 +82,7 @@ public class ConectaBanco {
         String nome = "José";
         ConectaBanco cbd = new ConectaBanco();
         Connection c = cbd.conectaBD();
-        cbd.selectData(c,"Select * from pessoa");
+        //cbd.selectData(c,"Select * from pessoa");
         //cbd.insertData(c,"INSERT INTO Pessoa (nome) VALUES (?)", nome);
     }
     
