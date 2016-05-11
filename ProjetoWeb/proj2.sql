@@ -35,3 +35,4 @@ CREATE TABLE TCC
     FOREIGN KEY (autor) REFERENCES Aluno(idAluno),
 	FOREIGN KEY (orientador) REFERENCES Professor(idProf)
 );
+

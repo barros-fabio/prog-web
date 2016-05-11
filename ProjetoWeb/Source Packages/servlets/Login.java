@@ -65,7 +65,7 @@ public class Login extends HttpServlet {
                 if(request.getParameter("login").equals(username)&& request.getParameter("inputPassword").equals(password)){
                     request.getSession().setAttribute("logado",new Boolean(true));
                     request.getSession().setAttribute("user",username);
-                    request.getSession().setMaxInactiveInterval(30);
+                    //request.getSession().setMaxInactiveInterval(30);
                     response.sendRedirect("./page/home.jsp");
                 }else{
                     response.setStatus(HttpServletResponse.SC_FORBIDDEN);

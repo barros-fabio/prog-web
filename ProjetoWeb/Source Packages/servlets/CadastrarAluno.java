@@ -52,10 +52,15 @@ public class CadastrarAluno extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
+        response.setContentType("text/html;charset=UTF-8");
+        System.out.println("Estou no doPost "+request.getSession().getAttribute("orientador").toString());
+        
         ConectaBanco db = new ConectaBanco();
         Connection con = db.conectaBD();
-        String query = "INSERT INTO Alunos(nomeAluno, CPF, RA, curso, periodo, orientador) VALUES (?,?,?,?,?,?)";
-        String  nome, cpf, ra, curso, periodo, orientador;
+        String query = "INSERT INTO Aluno(nomeAluno, CPF, RA, curso, periodo, orientador) VALUES (?,?,?,?,?,?)";
+        String  nome, cpf, ra, curso, periodo;
+        int orientador;
         
         
         nome = request.getParameter("nome");
@@ -63,8 +68,11 @@ public class CadastrarAluno extends HttpServlet {
         ra = request.getParameter("ra");
         curso = request.getParameter("curso");
         periodo = request.getParameter("periodo");
-        orientador = request.getParameter("");
+        orientador = Integer.parseInt(request.getSession().getAttribute("orientador").toString());
         
+        System.out.println(nome);
+        System.out.println(cpf);
+        System.out.println(ra);
         
         try {
             p = (PreparedStatement) con.prepareStatement(query);
@@ -73,11 +81,25 @@ public class CadastrarAluno extends HttpServlet {
             p.setString(3,ra);
             p.setString(4,curso);
             p.setString(5,periodo);
-            p.setString(6,orientador);
+            p.setInt(6,orientador);
             p.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(CadastrarAluno.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+        
+        response.getWriter().println("<!DOCTYPE html>");
+        response.getWriter().println("<html>");
+        response.getWriter().println("  <head>");
+        response.getWriter().println("  </head>");
+        response.getWriter().println("  <body>");
+        response.getWriter().println("      <h1>Aluno cadastrado com sucesso!</h1>");
+        response.getWriter().println("      <a href=\"./page/home.jsp\">Voltar para home</a>");
+        response.getWriter().println("  </body>");
+        response.getWriter().println("</html>");
+        //response.sendRedirect("");
+        
+        
        
     }
 

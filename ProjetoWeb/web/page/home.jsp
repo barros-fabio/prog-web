@@ -83,6 +83,7 @@
             <div class="jumbotron">
                 <%
                     ResultSet rs;
+                    int id=0;
                     String nome, usuario;
                     ConectaBanco db = new ConectaBanco();
                     Connection con = db.conectaBD();
@@ -90,25 +91,33 @@
                     
             
                     usuario = session.getAttribute("user").toString();
-                    request.getSession().setAttribute("orientador",usuario);
                     
-                    rs = db.selectData(con, "SELECT nomeProf FROM Professor WHERE usuario='"+usuario+"'"); // MUDAR ESSA LÓGICA!!! PROCESSAMENTO DE DADOS MUITO ALTO!!!!
+                    rs = db.selectData(con, "SELECT idProf,nomeProf FROM Professor WHERE usuario='"+usuario+"'"); // MUDAR ESSA LÓGICA!!! PROCESSAMENTO DE DADOS MUITO ALTO!!!!
                     
-                    System.out.println(usuario);
+                    
                     while(rs.next()){
                         nome = rs.getString("nomeProf");
+                        id = rs.getInt("idProf");
                         System.out.println(nome);
                         out.println("<h3>Olá, "+nome+"!</h3>");
                     }
-               
+                    request.getSession().setAttribute("orientador",id);
+
                 %> 
                 
                 <br>
                 <div class="container">
                     <ul class="list-group">
-                        <li class="list-group-item"> Fabio </li>
-                        <li class="list-group-item"> João </li>
-                        <li class="list-group-item"> José </li>
+                        <%
+                            rs = db.selectData(con,"SELECT COUNT(idAluno) FROM Aluno WHERE orientador="+id+"");
+                    
+                    
+                            rs = db.selectData(con,"SELECT nomeAluno FROM Aluno WHERE orientador="+id+"");
+                            
+                            while(rs.next()){
+                                out.println("<li class=\"list-group-item\">"+rs.getString("nomeAluno")+"</li>");
+                            }
+                        %>
                     </ul>
                 </div>
             </div>

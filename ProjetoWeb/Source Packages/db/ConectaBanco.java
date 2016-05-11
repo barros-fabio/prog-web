@@ -75,8 +75,8 @@ public class ConectaBanco {
         
         ConectaBanco cbd = new ConectaBanco();
         Connection c = cbd.conectaBD();
-        cbd.selectData(c,"SELECT * FROM Professor");
-        System.out.println(resultados.get(0));
+        cbd.selectData(c,"SELECT COUNT(idProf) FROM Professor");
+        //System.out.println(resultados.get(0));
       
     }
     

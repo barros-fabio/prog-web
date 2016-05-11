@@ -80,6 +80,11 @@
             <div class="jumbotron">
                 <h3>Cadastro de aluno: </h3>
                 <br>
+                <%
+                    System.out.println(session.getAttribute("orientador").toString());
+                    request.getSession().setAttribute("orientador",session.getAttribute("orientador"));
+                    
+                %>
                 <form role="form" action="../CadastrarAluno" method="POST">
                     <fieldset class="form-group">
                         <label for="formGroupExampleInput">Nome: </label>
