@@ -4,10 +4,13 @@
     Author     : fabio
 --%>
 
+<%@page import="java.sql.Connection"%>
+<%@page import="db.ConectaBanco"%>
+<%@page import="java.sql.ResultSet"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <!DOCTYPE html>
-<html lang="en">
+<html>
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -89,11 +92,30 @@
                     </div>
                 </form>
                 <br>
+                <%
+                    ResultSet rs;
+                    int id=0;
+                    String nome, usuario;
+                    ConectaBanco db = new ConectaBanco();
+                    Connection con = db.conectaBD();
+                    
+                    
+            
+                    id = Integer.parseInt(session.getAttribute("orientador").toString());
+                    
+                %> 
                 <div class="container">
                     <ul class="list-group">
-                        <li class="list-group-item"> Fabio </li>
-                        <li class="list-group-item"> João </li>
-                        <li class="list-group-item"> José </li>
+                        <%
+                            
+                    
+                    
+                            rs = db.selectData(con,"SELECT nomeAluno FROM Aluno WHERE orientador="+id+"");
+                            
+                            while(rs.next()){
+                                out.println("<li class=\"list-group-item\">"+rs.getString("nomeAluno")+"</li>");
+                            }
+                        %>
                     </ul>
                 </div>
                 

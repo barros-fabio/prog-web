@@ -8,6 +8,14 @@
         <servlet-name>CadastrarAluno</servlet-name>
         <servlet-class>servlets.CadastrarAluno</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>CadastrarTrabalho</servlet-name>
+        <servlet-class>servlets.CadastrarTrabalho</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ConsultarAluno</servlet-name>
+        <servlet-class>servlets.ConsultarAluno</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Login</servlet-name>
         <url-pattern>/Login</url-pattern>
@@ -15,6 +23,14 @@
     <servlet-mapping>
         <servlet-name>CadastrarAluno</servlet-name>
         <url-pattern>/CadastrarAluno</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CadastrarTrabalho</servlet-name>
+        <url-pattern>/CadastrarTrabalho</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ConsultarAluno</servlet-name>
+        <url-pattern>/ConsultarAluno</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

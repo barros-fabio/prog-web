@@ -7,7 +7,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <!DOCTYPE html>
-<html lang="en">
+<html>
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -80,7 +80,12 @@
             <div class="jumbotron">
                 <h3>Cadastrar trabalho de conclusão de curso:</h3>
                 <br>
-                <form>
+                <%
+                    
+                    request.getSession().setAttribute("orientador",session.getAttribute("orientador"));
+                    
+                %>
+                <form role="form" action="../CadastrarTrabalho" method="POST">
                     <fieldset class="form-group">
                     <label for="formGroupExampleInput">Título: </label>
                     <input type="text" class="form-control" id="titulo" name="titulo" placeholder="Título do trabalho">
@@ -105,8 +110,9 @@
                         <label for="formGroupExampleInput2">Nota: </label>
                         <input type="text" class="form-control" id="nota" name="nota" placeholder="Nota">
                     </fieldset>
+                    <button type="submit" class="btn btn-default">Cadastrar Trabalho</button>
                 </form>
-                <button type="submit" class="btn btn-default">Cadastrar Trabalho</button>
+                
             </div>
 
         </div> <!-- /container -->

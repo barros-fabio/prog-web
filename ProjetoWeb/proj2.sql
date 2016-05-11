@@ -5,7 +5,8 @@ CREATE TABLE Professor
     usuario VARCHAR(60) NOT NULL,
     senha VARCHAR(20) NOT NULL,
     email VARCHAR(60) NOT NULL,
-    PRIMARY KEY (idProf)
+    PRIMARY KEY (idProf),
+    UNIQUE(idProf)
 );
 
 CREATE TABLE Aluno
@@ -18,6 +19,7 @@ CREATE TABLE Aluno
     periodo VARCHAR(20) NOT NULL,
     orientador INTEGER NOT NULL,
     PRIMARY KEY (idAluno),
+    UNIQUE (idAluno),
     FOREIGN KEY (orientador) REFERENCES Professor(idProf)
 );
 
@@ -32,6 +34,7 @@ CREATE TABLE TCC
     autor INTEGER NOT NULL,
     orientador INTEGER NOT NULL,
     PRIMARY KEY (idTrabalho),
+    UNIQUE(idTrabalho),
     FOREIGN KEY (autor) REFERENCES Aluno(idAluno),
 	FOREIGN KEY (orientador) REFERENCES Professor(idProf)
 );
