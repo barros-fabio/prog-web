@@ -86,8 +86,12 @@
                     String nome, usuario;
                     ConectaBanco db = new ConectaBanco();
                     Connection con = db.conectaBD();
+                    
+                    
             
                     usuario = session.getAttribute("user").toString();
+                    request.getSession().setAttribute("orientador",usuario);
+                    
                     rs = db.selectData(con, "SELECT nomeProf FROM Professor WHERE usuario='"+usuario+"'"); // MUDAR ESSA LÓGICA!!! PROCESSAMENTO DE DADOS MUITO ALTO!!!!
                     
                     System.out.println(usuario);
