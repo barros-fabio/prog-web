@@ -4,24 +4,26 @@
  * and open the template in the editor.
  */
 package db;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author fabio
- */
-
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import java.sql.*;
-
-/**
- *
- * @author Fabio Barros
  */
 public class ConectaBanco {
 
     private Connection conexao;
     private PreparedStatement p;
     private ResultSet rs;
+    private static ArrayList<String> resultados = new ArrayList<>();
    
     public ConectaBanco(){
         
@@ -47,12 +49,23 @@ public class ConectaBanco {
     public void insertData(Connection conexao, String query, String nome){
         try {
             p = (PreparedStatement) conexao.prepareStatement(query);
-            p.setString(1, nome);
+            //p.setString(1, nome);
             p.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(ConectaBanco.class.getName()).log(Level.SEVERE, null, ex);
         }
         
+    }
+    
+    public ResultSet selectData(Connection conexao, String query){
+        try {
+            p = (PreparedStatement) conexao.prepareStatement(query);
+            rs = p.executeQuery();
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(ConectaBanco.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return rs;
     }
     /**
      * @param args the command line arguments
@@ -62,7 +75,9 @@ public class ConectaBanco {
         
         ConectaBanco cbd = new ConectaBanco();
         Connection c = cbd.conectaBD();
-        cbd.insertData(c,"INSERT INTO Pessoa (nome) VALUES (?)", nome);
+        cbd.selectData(c,"SELECT * FROM Professor");
+        System.out.println(resultados.get(0));
+      
     }
     
 }
