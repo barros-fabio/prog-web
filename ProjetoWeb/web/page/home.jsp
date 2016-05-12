@@ -40,12 +40,45 @@
           <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
           <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
         <![endif]-->
+        <style>
+            .btn-default{
+                border: none;
+                background: none;
+                margin-left: 5%;
+   
+            }
+            
+            .btn-default:hover{
+                background: none;
+            }
+        </style>
     </head>
 
     <body>
+        <%
+            ResultSet rs;
+            int id=0;
+            String nome ="", usuario;
+            ConectaBanco db = new ConectaBanco();
+            Connection con = db.conectaBD();
 
+
+
+            usuario = session.getAttribute("user").toString();
+
+            rs = db.selectData(con, "SELECT idProf,nomeProf FROM Professor WHERE usuario='"+usuario+"'"); // MUDAR ESSA LÓGICA!!! PROCESSAMENTO DE DADOS MUITO ALTO!!!!
+
+            while(rs.next()){
+                nome = rs.getString("nomeProf");
+                id = rs.getInt("idProf");  
+            }
+
+            request.getSession().setAttribute("orientador",id);
+            request.getSession().setAttribute("nomeUsuario",nome);
+        %>
+        
         <div class="container">
-
+            
           <!-- Static navbar -->
             <nav class="navbar navbar-default">
                 <div class="container-fluid">
@@ -75,6 +108,24 @@
                                 </ul>
                             </li>
                         </ul>
+                        <ul class="nav navbar-nav navbar-right">
+                            <li class="dropdown">
+                                <%
+                                    out.println("<a href=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\" role=\"button\" aria-haspopup=\"true\" aria-expanded=\"false\">"+nome+"<span class=\"caret\"></span></a>");
+                                %>
+                                <ul class="dropdown-menu">
+                                    <li><a href="perfil.jsp">Meu Perfil</a></li>
+                                    <li role="separator" class="divider"></li>
+                                    <li>
+                                        <form action="../Logout" method="POST">
+                                            
+                                            <button type="submit" class="btn btn-default">Logout</button>
+                                        </form>
+                                    </li>
+                                    
+                                </ul>
+                            </li>     
+                        </ul>
                     </div><!--/.nav-collapse -->
                 </div><!--/.container-fluid -->
             </nav>
@@ -82,38 +133,18 @@
             <!-- Main component for a primary marketing message or call to action -->
             <div class="jumbotron">
                 <%
-                    ResultSet rs;
-                    int id=0;
-                    String nome, usuario;
-                    ConectaBanco db = new ConectaBanco();
-                    Connection con = db.conectaBD();
-                    
-                    
-            
-                    usuario = session.getAttribute("user").toString();
-                    
-                    rs = db.selectData(con, "SELECT idProf,nomeProf FROM Professor WHERE usuario='"+usuario+"'"); // MUDAR ESSA LÓGICA!!! PROCESSAMENTO DE DADOS MUITO ALTO!!!!
-                    
-                    
-                    while(rs.next()){
-                        nome = rs.getString("nomeProf");
-                        id = rs.getInt("idProf");
-                        System.out.println(nome);
-                        out.println("<h3>Olá, "+nome+"!</h3>");
-                    }
-                    request.getSession().setAttribute("orientador",id);
-
+                    out.println("<h3>Olá, "+nome+"!</h3>");
                 %> 
                 
                 <br>
                 <div class="container">
                     <ul class="list-group">
                         <%
-                            rs = db.selectData(con,"SELECT COUNT(idAluno) FROM Aluno WHERE orientador="+id+"");
+                            //rs = db.selectData(con,"SELECT COUNT(idAluno) FROM Aluno WHERE orientador="+id+"");
                     
                     
                             rs = db.selectData(con,"SELECT nomeAluno FROM Aluno WHERE orientador="+id+"");
-                            
+                            System.out.println(id);
                             while(rs.next()){
                                 out.println("<li class=\"list-group-item\">"+rs.getString("nomeAluno")+"</li>");
                             }

@@ -16,3 +16,8 @@ body {
 .navbar {
   margin-bottom: 20px;
 }
+
+.logoutPage{
+    border: none;
+    background: none;
+}

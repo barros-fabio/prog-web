@@ -40,7 +40,9 @@
     </head>
 
     <body>
-
+        <%
+            String nome = session.getAttribute("nomeUsuario").toString();
+        %>
         <div class="container">
 
           <!-- Barra de navegação estática-->
@@ -71,6 +73,24 @@
                                     <li><a href="consultarTrabalho.jsp">Consultar</a></li>
                                 </ul>
                             </li>
+                        </ul>
+                        <ul class="nav navbar-nav navbar-right">
+                            <li class="dropdown">
+                                <%
+                                    out.println("<a href=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\" role=\"button\" aria-haspopup=\"true\" aria-expanded=\"false\">"+nome+"<span class=\"caret\"></span></a>");
+                                %>
+                                <ul class="dropdown-menu">
+                                    <li><a href="perfil.jsp">Meu Perfil</a></li>
+                                    <li role="separator" class="divider"></li>
+                                    <li>
+                                        <form action="../Logout" method="POST">
+                                            
+                                            <button type="submit" class="btn btn-default">Logout</button>
+                                        </form>
+                                    </li>
+                                    
+                                </ul>
+                            </li>    
                         </ul>
                     </div><!--/.nav-collapse -->
                 </div><!--/.container-fluid -->

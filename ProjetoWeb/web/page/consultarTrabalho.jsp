@@ -4,6 +4,9 @@
     Author     : fabio
 --%>
 
+<%@page import="java.sql.Connection"%>
+<%@page import="db.ConectaBanco"%>
+<%@page import="java.sql.ResultSet"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <!DOCTYPE html>
@@ -40,7 +43,9 @@
     </head>
 
     <body>
-
+        <%
+            String nome = session.getAttribute("nomeUsuario").toString();
+        %>
         <div class="container">
 
           <!-- Static navbar -->
@@ -72,6 +77,24 @@
                                 </ul>
                             </li>
                         </ul>
+                        <ul class="nav navbar-nav navbar-right">
+                            <li class="dropdown">
+                                <%
+                                    out.println("<a href=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\" role=\"button\" aria-haspopup=\"true\" aria-expanded=\"false\">"+nome+"<span class=\"caret\"></span></a>");
+                                %>
+                                <ul class="dropdown-menu">
+                                    <li><a href="perfil.jsp">Meu Perfil</a></li>
+                                    <li role="separator" class="divider"></li>
+                                    <li>
+                                        <form action="../Logout" method="POST">
+                                            
+                                            <button type="submit" class="btn btn-default">Logout</button>
+                                        </form>
+                                    </li>
+                                    
+                                </ul>
+                            </li>     
+                        </ul>
                     </div><!--/.nav-collapse -->
                 </div><!--/.container-fluid -->
             </nav>
@@ -80,20 +103,53 @@
             <div class="jumbotron">
                 <h3>Consultar trabalhos</h3>
                 <br>
-                <form class="navbar-form" role="search">
+                <form class="navbar-form" role="form">
                     <div class="input-group">
                         <input type="text" class="form-control" placeholder="Consultar trabalho" name="q">
                         <div class="input-group-btn">
                             <button class="btn btn-default" type="submit">Pesquisar</button>
                         </div>
                     </div>
+                    <br>
+                    <div class="radio">
+                        <label for="option1">TCC Defendido</label>
+                        <input type="radio" id="option1">
+                    </div>
+                    <br>
+                    <div class="radio">
+                        <label for="option2">Meus TCCs</label>
+                        <input type="radio" id="option2">
+                    </div>
+                    <br>
+                    <div class="radio">
+                        <label for="option3">TCC Geral</label>
+                        <input type="radio" id="option3">
+                    </div>
+                    
+                    
+
+                   
                 </form>
                 <br>
+                <%
+                    ResultSet rs;
+                    int id=0;
+                    String pesquisa;
+                    ConectaBanco db = new ConectaBanco();
+                    Connection con = db.conectaBD();
+                    
+                    pesquisa = request.getParameter("q");
+                %> 
                 <div class="container">
                     <ul class="list-group">
-                        <li class="list-group-item"> Fabio </li>
-                        <li class="list-group-item"> João </li>
-                        <li class="list-group-item"> José </li>
+                        <%
+                    
+                            rs = db.selectData(con,"SELECT titulo FROM TCC WHERE titulo LIKE '"+pesquisa+"%'");
+                            
+                            while(rs.next()){
+                                out.println("<li class=\"list-group-item\">"+rs.getString("titulo")+"</li>");
+                            }
+                        %>
                     </ul>
                 </div>
             </div>

@@ -52,7 +52,6 @@ public class CadastrarTrabalho extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         request.setCharacterEncoding( "UTF-8" );
-        System.out.println("Estou no doPost");
         
         ConectaBanco db = new ConectaBanco();
         Connection con = db.conectaBD();

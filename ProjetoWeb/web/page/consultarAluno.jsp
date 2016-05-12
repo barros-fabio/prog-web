@@ -43,7 +43,9 @@
     </head>
 
     <body>
-
+        <%
+            String nome = session.getAttribute("nomeUsuario").toString();
+        %>
         <div class="container">
 
           <!-- Static navbar -->
@@ -75,6 +77,24 @@
                                 </ul>
                             </li>
                         </ul>
+                        <ul class="nav navbar-nav navbar-right">
+                            <li class="dropdown">
+                                <%
+                                    out.println("<a href=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\" role=\"button\" aria-haspopup=\"true\" aria-expanded=\"false\">"+nome+"<span class=\"caret\"></span></a>");
+                                %>
+                                <ul class="dropdown-menu">
+                                    <li><a href="perfil.jsp">Meu Perfil</a></li>
+                                    <li role="separator" class="divider"></li>
+                                    <li>
+                                        <form action="../Logout" method="POST">
+                                            
+                                            <button type="submit" class="btn btn-default">Logout</button>
+                                        </form>
+                                    </li>
+                                    
+                                </ul>
+                            </li>      
+                        </ul>
                     </div><!--/.nav-collapse -->
                 </div><!--/.container-fluid -->
             </nav>
@@ -83,9 +103,9 @@
             <div class="jumbotron"> 
                 <h3>Consultar alunos</h3>
                 <br>
-                <form class="navbar-form" role="search">
+                <form class="navbar-form" role="search" action="consultarAluno.jsp">
                     <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Consultar aluno" name="q">
+                        <input type="text" class="form-control" placeholder="Consultar aluno pelo nome" name="q">
                         <div class="input-group-btn">
                             <button class="btn btn-default" type="submit">Pesquisar</button>
                         </div>
@@ -95,22 +115,17 @@
                 <%
                     ResultSet rs;
                     int id=0;
-                    String nome, usuario;
+                    String pesquisa;
                     ConectaBanco db = new ConectaBanco();
                     Connection con = db.conectaBD();
                     
-                    
-            
-                    id = Integer.parseInt(session.getAttribute("orientador").toString());
-                    
+                    pesquisa = request.getParameter("q");
                 %> 
                 <div class="container">
                     <ul class="list-group">
                         <%
-                            
                     
-                    
-                            rs = db.selectData(con,"SELECT nomeAluno FROM Aluno WHERE orientador="+id+"");
+                            rs = db.selectData(con,"SELECT nomeAluno FROM Aluno WHERE nomeAluno LIKE '"+pesquisa+"%'");
                             
                             while(rs.next()){
                                 out.println("<li class=\"list-group-item\">"+rs.getString("nomeAluno")+"</li>");
