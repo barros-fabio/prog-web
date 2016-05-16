@@ -40,6 +40,7 @@
           <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
           <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
         <![endif]-->
+        
     </head>
 
     <body>
@@ -103,7 +104,7 @@
             <div class="jumbotron">
                 <h3>Consultar trabalhos</h3>
                 <br>
-                <form class="navbar-form" role="form">
+                <form class="navbar-form" role="form" action="consultarTrabalho.jsp" method="GET">
                     <div class="input-group">
                         <input type="text" class="form-control" placeholder="Consultar trabalho" name="q">
                         <div class="input-group-btn">
@@ -113,41 +114,66 @@
                     <br>
                     <div class="radio">
                         <label for="option1">TCC Defendido</label>
-                        <input type="radio" id="option1">
+                        <input type="radio" id="option1" value="1" name="radAnswer">
                     </div>
                     <br>
                     <div class="radio">
                         <label for="option2">Meus TCCs</label>
-                        <input type="radio" id="option2">
+                        <input type="radio" id="option2" value="2" name="radAnswer">
                     </div>
                     <br>
                     <div class="radio">
                         <label for="option3">TCC Geral</label>
-                        <input type="radio" id="option3">
+                        <input type="radio" id="option3" value="3" name="radAnswer">
                     </div>
-                    
-                    
-
-                   
                 </form>
                 <br>
                 <%
                     ResultSet rs;
                     int id=0;
-                    String pesquisa;
+                    String opcao= "1",pesquisa, profId;
                     ConectaBanco db = new ConectaBanco();
                     Connection con = db.conectaBD();
                     
-                    pesquisa = request.getParameter("q");
+                    
+                    
+                    
                 %> 
                 <div class="container">
                     <ul class="list-group">
-                        <%
-                    
-                            rs = db.selectData(con,"SELECT titulo FROM TCC WHERE titulo LIKE '"+pesquisa+"%'");
-                            
-                            while(rs.next()){
-                                out.println("<li class=\"list-group-item\">"+rs.getString("titulo")+"</li>");
+                        <%  
+                            if(request.getMethod().equals("GET")){
+                        
+                                opcao = request.getParameter("radAnswer");
+
+                                if(request.getParameter("radAnswer")==null){
+                                    System.out.println("Nada");
+                                }else{
+                                    pesquisa = request.getParameter("q");
+                                    profId = session.getAttribute("orientador").toString();
+                                    
+                                    if(opcao.equals("1")){
+                                        rs = db.selectData(con,"SELECT titulo FROM TCC WHERE titulo LIKE '"+pesquisa+"%'");
+
+                                        while(rs.next())
+                                            out.println("<li class=\"list-group-item\">"+rs.getString("titulo")+"</li>");
+
+                                    }else if(opcao.equals("2")){
+                                        rs = db.selectData(con,"SELECT titulo FROM TCC WHERE orientador = "+profId+"");
+
+                                        while(rs.next())
+                                            out.println("<li class=\"list-group-item\">"+rs.getString("titulo")+"</li>");
+
+
+                                    // Pesquisa por TCC Geral ( por nome)
+                                    }else if(opcao.equals("3")){
+                                        rs = db.selectData(con,"SELECT titulo FROM TCC WHERE titulo LIKE '"+pesquisa+"%'");
+
+                                        while(rs.next())
+                                            out.println("<li class=\"list-group-item\">"+rs.getString("titulo")+"</li>");
+
+                                    }
+                                }
                             }
                         %>
                     </ul>
