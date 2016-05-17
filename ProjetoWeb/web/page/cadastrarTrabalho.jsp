@@ -38,6 +38,38 @@
           <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
         <![endif]-->
         
+        <script type="text/javascript" src="//code.jquery.com/jquery-2.1.1.min.js"></script>
+        <script type="text/javascript" src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+        
+        <SCRIPT LANGUAGE="JavaScript">
+            <!--
+            function checker()
+            {
+                
+                var regExpDate = /^(\d{1,2})\/(\d{1,2})\/(\d{4})$/;
+               
+                var resultDataEntrega = document.form1.dataEntrega.value.match(regExpDate);
+                var resultDataDefesa = document.form1.dataDefesa.value.match(regExpDate);
+                var resultTitulo = document.form1.titulo.value;
+                
+                
+                
+                if(resultDataEntrega == null){
+                    alert("Data de entrega invalida!");
+                    document.form1.dataEntrega.value = "";
+                    return false;
+                } else if(resultDataDefesa == null){
+                    alert("Data de defesa inválida!");
+                    document.form1.dataEntrega.value = "";
+                    return false;
+                } else {
+                    document.form1.submit();
+                }
+                
+            }
+            //-->
+        </SCRIPT>
+        
     </head>
 
     <body>
@@ -106,10 +138,10 @@
                     request.getSession().setAttribute("orientador",session.getAttribute("orientador"));
                     
                 %>
-                <form role="form" action="../CadastrarTrabalho" method="POST">
+                <form name="form1" role="form" action="../CadastrarTrabalho" method="POST" onsubmit="return checker()">
                     <fieldset class="form-group">
-                    <label for="formGroupExampleInput">Título: </label>
-                    <input type="text" class="form-control" id="titulo" name="titulo" placeholder="Título do trabalho">
+                        <label for="formGroupExampleInput">Título: </label>
+                        <input type="text" class="form-control" id="titulo" name="titulo" placeholder="Título do trabalho">
                     </fieldset>
                     <fieldset class="form-group">
                         <label for="exampleTextarea">Resumo: </label>
