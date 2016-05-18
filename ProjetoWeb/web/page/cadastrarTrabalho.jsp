@@ -38,8 +38,7 @@
           <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
         <![endif]-->
         
-        <script type="text/javascript" src="//code.jquery.com/jquery-2.1.1.min.js"></script>
-        <script type="text/javascript" src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+        
         
         <SCRIPT LANGUAGE="JavaScript">
             <!--
@@ -50,19 +49,29 @@
                
                 var resultDataEntrega = document.form1.dataEntrega.value.match(regExpDate);
                 var resultDataDefesa = document.form1.dataDefesa.value.match(regExpDate);
-                var resultTitulo = document.form1.titulo.value;
-                
-                
-                
-                if(resultDataEntrega == null){
+                var resultTitulo = document.form1.titulo.value.toString();
+                var resultNota = document.form1.nota.value.toString();
+                var n = resultTitulo.length;
+                var grade = parseFloat(resultNota);
+   
+                if(n==0){
+                    alert("Preencha o campo nome!");
+                    return false;
+                }else if(resultDataEntrega == null){
                     alert("Data de entrega invalida!");
                     document.form1.dataEntrega.value = "";
                     return false;
-                } else if(resultDataDefesa == null){
+                }else if(resultDataDefesa == null){
                     alert("Data de defesa inválida!");
                     document.form1.dataEntrega.value = "";
                     return false;
-                } else {
+                }else if(grade>10.0){
+                    alert("Nota inválida!");
+                    return false;
+                }else if(grade<0.0){
+                    alert("Nota inválida!");
+                    return false;
+                }else{
                     document.form1.submit();
                 }
                 
