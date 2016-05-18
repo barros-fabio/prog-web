@@ -4,6 +4,10 @@
     Author     : fabio
 --%>
 
+<%@page import="java.util.ArrayList"%>
+<%@page import="java.sql.Connection"%>
+<%@page import="db.ConectaBanco"%>
+<%@page import="java.sql.ResultSet"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <!DOCTYPE html>
@@ -38,11 +42,71 @@
           <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
         <![endif]-->
         
+        <script language="JavaScript">
+            <!--
+            function checker()
+            {
+                
+                var regExpCPF = /([0-9]{2}[\.]?[0-9]{3}[\.]?[0-9]{3}[\/]?[0-9]{4}[-]?[0-9]{2})|([0-9]{3}[\.]?[0-9]{3}[\.]?[0-9]{3}[-]?[0-9]{2})$/;
+
+                var resultNome = document.formCadastroAluno.nome.value.toString();
+                var resultCPF = document.formCadastroAluno.cpf.value.toString();
+                var resultRA = document.formCadastroAluno.ra.value.toString();
+                var resultCurso = document.formCadastroAluno.curso.value.toString();
+                var resultPeriodo = document.formCadastroAluno.periodo.value.toString();
+                var tamanhoNome = resultNome.length;
+                var tamanhoCPF = resultCPF.length;
+                var tamanhoRA = resultRA.length;
+                var tamanhoPeriodo = resultPeriodo.length;
+                var tamanhoCurso = resultCurso.length;
+                //var resultDataEntrega = document.form1.dataEntrega.value.match(regExpDate);
+                //var resultDataDefesa = document.form1.dataDefesa.value.match(regExpDate);
+   
+   
+                alert(resultCurso);
+                if(tamanhoNome==0){
+                    alert("Preencha o campo nome!");
+                    return false;
+                }else if(tamanhoCPF == 0){
+                    alert("Preencha o CPF!");
+                    return false;
+                }else if(tamanhoRA == 0){
+                    alert("Preencha o RA!");
+                    return false;
+                }else if(resultCurso.equals("---")){
+                    alert("Preencha o Curso!");
+                    return false;
+                }else if(tamanhoPeriodo == 0){
+                    alert("Informe o período do aluno!");
+                    return false;
+                }else{
+                    document.formCadastroAluno.submit();
+                }
+                
+            }
+            //-->
+        </script>
+        
     </head>
 
     <body>
         <%
             String nome = session.getAttribute("nomeUsuario").toString();
+            
+            // lista de cursos disponíveis no câmpus
+            // Cada índice da lista corresponde a um curso.
+            // 0 - Engenharia Elétrica, 1 - Engenharia Mecânica, 2 - Engenharia de Computação, 3 - Engenharia de Controle e Automação, 4 - Engenharia Eletrônica, 5 - Engenharia de Software
+            // Da mesma forma, cada curso tem um número de períodos. Cada índice da lista de períodos corresponde ao curso de mesmo índice na lista de cursos
+            ArrayList<String> cursos = new ArrayList<String>();
+            
+            
+            cursos.add("Engenharia Elétrica");
+            cursos.add("Engenharia Mecânica");
+            cursos.add("Engenharia de Computação");
+            cursos.add("Engenharia de Controle e Automação");
+            cursos.add("Engenharia Eletrônica");
+            cursos.add("Engenharia de Software");
+    
         %>
         <div class="container">
 
@@ -106,7 +170,7 @@
                     request.getSession().setAttribute("orientador",session.getAttribute("orientador"));
                     
                 %>
-                <form role="form" action="../CadastrarAluno" method="POST">
+                <form name="formCadastroAluno" role="form" action="../CadastrarAluno" method="POST" onsubmit="return checker()">
                     <fieldset class="form-group">
                         <label for="formGroupExampleInput">Nome: </label>
                         <input type="text" class="form-control" id="nome" name="nome" placeholder="Nome">
@@ -117,11 +181,21 @@
                     </fieldset>
                     <fieldset class="form-group">
                         <label for="formGroupExampleInput2">RA: </label>
-                        <input type="text" class="form-control" id="ra" name="ra" placeholder="RA">
+                        <input type="text" class="form-control" id="ra" name="ra" placeholder="RA (Código do Aluno)">
                     </fieldset>
                     <fieldset class="form-group">
-                        <label for="formGroupExampleInput2">Curso: </label>
-                        <input type="text" class="form-control" id="curso" name="curso" placeholder="Curso">
+                        <div class="form-group">
+                            <label for="sel1">Curso:</label>
+                            <select class="form-control" id="curso" name="curso">
+                                <%      
+                                    out.println("<option value\"---\"> --- </option>");   
+                                    for(int i=0;i<cursos.size();i++){
+                                        out.println("<option value=\""+i+"\">"+cursos.get(i).toString()+"</option>");
+                                    }                                
+                                %>
+                               
+                            </select>
+                        </div>
                     </fieldset>
                     <fieldset class="form-group">
                         <label for="formGroupExampleInput2">Período: </label>

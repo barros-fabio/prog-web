@@ -4,6 +4,9 @@
     Author     : fabio
 --%>
 
+<%@page import="java.sql.ResultSet"%>
+<%@page import="java.sql.Connection"%>
+<%@page import="db.ConectaBanco"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <!DOCTYPE html>
@@ -40,7 +43,7 @@
         
         
         
-        <SCRIPT LANGUAGE="JavaScript">
+        <script language="JavaScript">
             <!--
             function checker()
             {
@@ -52,6 +55,7 @@
                 var resultTitulo = document.form1.titulo.value.toString();
                 var resultNota = document.form1.nota.value.toString();
                 var n = resultTitulo.length;
+                var gradeSize = resultNota.length;
                 var grade = parseFloat(resultNota);
    
                 if(n==0){
@@ -65,6 +69,9 @@
                     alert("Data de defesa inválida!");
                     document.form1.dataEntrega.value = "";
                     return false;
+                }else if(gradeSize == 0){
+                    alert("Preencha o campo nota!");
+                    return false;
                 }else if(grade>10.0){
                     alert("Nota inválida!");
                     return false;
@@ -77,7 +84,7 @@
                 
             }
             //-->
-        </SCRIPT>
+        </script>
         
     </head>
 
@@ -157,8 +164,29 @@
                         <textarea class="form-control" id="resumo" name="resumo" rows="5" placeholder="Digite aqui um resumo do trabalho"></textarea>
                     </fieldset>
                     <fieldset class="form-group">
-                        <label for="formGroupExampleInput2">Aluno: </label>
-                        <input type="text" class="form-control" id="aluno" name="aluno" placeholder="Aluno (autor)">
+                        <div class="form-group">
+                            <label for="sel1">Aluno:</label>
+                            <select class="form-control" id="aluno" name="aluno">
+                                <%
+                                    ResultSet rs;
+                                    String alunoNome;
+                                    int id;
+                                    ConectaBanco db = new ConectaBanco();
+                                    Connection con = db.conectaBD();
+                                    
+                                    rs = db.selectData(con,"SELECT idAluno, nomeAluno FROM Aluno");
+                                        
+                                    out.println("<option> --- </option>");   
+                                    while(rs.next()){
+                                        id = rs.getInt("idAluno");
+                                        alunoNome = rs.getString("nomeAluno");
+                                        out.println("<option value=\""+id+"\">"+alunoNome+"</option>");
+                                    }
+                                %>
+                               
+                            </select>
+
+                        </div>
                     </fieldset>
                     <fieldset class="form-group">
                         <label for="formGroupExampleInput2">Data de entrega: </label>
@@ -170,7 +198,7 @@
                     </fieldset>
                     <fieldset class="form-group">
                         <label for="formGroupExampleInput2">Nota: </label>
-                        <input type="text" class="form-control" id="nota" name="nota" placeholder="Nota">
+                        <input type="text" class="form-control" id="nota" name="nota" placeholder="Nota (0 a 10)">
                     </fieldset>
                     <button type="submit" class="btn btn-default">Cadastrar Trabalho</button>
                 </form>
