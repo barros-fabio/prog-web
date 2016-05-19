@@ -42,7 +42,17 @@
         <![endif]-->
         <style>
             .link-alterar{
-                text-align: right;
+                float: right; 
+            }
+            
+            .link-alterar:link{
+                color: #333333;
+                text-decoration: none;
+            }
+  
+            .link-alterar:hover{
+                background-color: #e6e6e6;
+                text-decoration: none;
             }
         </style>
             
