@@ -51,6 +51,16 @@
             .btn-default:hover{
                 background: none;
             }
+            
+            .link-alterar{
+                text-align: right;
+                color: black;
+                
+            }
+            
+            .link-alterar:hover{
+                background-color: #f2f2f2;
+            }
         </style>
     </head>
 
@@ -146,7 +156,7 @@
                             rs = db.selectData(con,"SELECT nomeAluno FROM Aluno WHERE orientador="+id+"");
                             System.out.println(id);
                             while(rs.next()){
-                                out.println("<li class=\"list-group-item\">"+rs.getString("nomeAluno")+"</li>");
+                                out.println("<li class=\"list-group-item\">"+rs.getString("nomeAluno")+"<a class=\"link-alterar\" href =\"alterarAluno.jsp\"> Alterar </a></li>");
                             }
                         %>
                     </ul>

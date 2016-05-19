@@ -4,6 +4,8 @@
     Author     : fabio
 --%>
 
+<%@page import="java.util.Date"%>
+<%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.sql.Connection"%>
 <%@page import="db.ConectaBanco"%>
 <%@page import="java.sql.ResultSet"%>
@@ -135,7 +137,7 @@
                     ConectaBanco db = new ConectaBanco();
                     Connection con = db.conectaBD();
                     
-                    
+                    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
                     
                     
                 %> 
@@ -153,10 +155,31 @@
                                     profId = session.getAttribute("orientador").toString();
                                     
                                     if(opcao.equals("1")){
-                                        rs = db.selectData(con,"SELECT titulo FROM TCC WHERE titulo LIKE '"+pesquisa+"%'");
-
-                                        while(rs.next())
-                                            out.println("<li class=\"list-group-item\">"+rs.getString("titulo")+"</li>");
+                                        Date dataAtual = sdf.parse("18/05/2016");
+                                        
+                                        String dataAux;
+                                        
+                                        rs = db.selectData(con,"SELECT titulo, dataDefesa FROM TCC");
+                                        
+                                        while(rs.next()){
+                                            dataAux = rs.getString("dataDefesa");
+                                            Date dataDefesa = sdf.parse(dataAux);
+                                            
+                                            if(dataAtual.compareTo(dataDefesa)>0){
+                                                System.out.println("Data Atual é depois de Data de Defesa, TCC Defendido");
+                                                out.println("<li class=\"list-group-item\">"+rs.getString("titulo")+"</li>");
+                                            }else if(dataAtual.compareTo(dataDefesa)<0){
+                                                System.out.println("Data Atual é antes da Data de Defesa");
+                                            }else if(dataAtual.compareTo(dataDefesa)==0){
+                                                System.out.println("Data Atual é igual a Data de Defesa");
+                                            }else{
+                                                System.out.println("Indefinido");
+                                            }
+                                            
+                                        }
+                                            
+                                            
+                                        
 
                                     }else if(opcao.equals("2")){
                                         rs = db.selectData(con,"SELECT titulo FROM TCC WHERE orientador = "+profId+"");

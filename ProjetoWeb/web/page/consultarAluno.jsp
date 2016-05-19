@@ -40,6 +40,12 @@
           <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
           <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
         <![endif]-->
+        <style>
+            .link-alterar{
+                text-align: right;
+            }
+        </style>
+            
       
     </head>
 
@@ -129,7 +135,7 @@
                             rs = db.selectData(con,"SELECT nomeAluno FROM Aluno WHERE nomeAluno LIKE '"+pesquisa+"%'");
                             
                             while(rs.next()){
-                                out.println("<li class=\"list-group-item\">"+rs.getString("nomeAluno")+"</li>");
+                                out.println("<li class=\"list-group-item\">"+rs.getString("nomeAluno")+" <a class = \"link-alterar\" href =\"alterarAluno.jsp\"> Alterar </a></li>");
                             }
                         %>
                     </ul>

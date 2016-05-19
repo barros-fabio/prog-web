@@ -7,3 +7,4 @@ SELECT * from TCC;
 
 DELETE FROM Professor;
 DELETE FROM Aluno;
+DELETE FROM TCC;
