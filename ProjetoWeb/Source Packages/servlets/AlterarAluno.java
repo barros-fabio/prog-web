@@ -20,9 +20,10 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author fabio
+ * @author Fabio Barros
  */
-public class CadastrarTrabalho extends HttpServlet {
+public class AlterarAluno extends HttpServlet {
+
     PreparedStatement p;
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -37,7 +38,7 @@ public class CadastrarTrabalho extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        System.out.println("Estou no doGet");
+        
     }
 
     /**
@@ -51,35 +52,25 @@ public class CadastrarTrabalho extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+       
         request.setCharacterEncoding( "UTF-8" );
         
         ConectaBanco db = new ConectaBanco();
         Connection con = db.conectaBD();
-        String query = "INSERT INTO TCC(titulo, resumo, dataEntrega, dataDefesa, nota, autor, orientador) VALUES (?,?,?,?,?,?,?)";
-        String  titulo, resumo, dataEntrega, dataDefesa, nota;
-        int aluno,orientador;
-        
-        
-        titulo = request.getParameter("titulo");
-        resumo = request.getParameter("resumo");
-        dataEntrega = request.getParameter("dataEntrega");
-        dataDefesa = request.getParameter("dataDefesa");
-        nota = request.getParameter("nota");
-        aluno = Integer.parseInt(request.getParameter("aluno"));
-        orientador = Integer.parseInt(request.getSession().getAttribute("orientador").toString());
+        String  nome, cpf, ra, curso, periodo;
+      
+        nome = request.getParameter("nome");
+        cpf = request.getParameter("cpf");
+        ra = request.getParameter("ra");
+        curso = request.getParameter("curso");
+        periodo = request.getParameter("periodo");
+        String query = "UPDATE Aluno SET nomeAluno = '"+nome+"', CPF ='"+cpf+"', RA = '"+ra+"', curso ='"+curso+"', periodo='"+periodo+"'";
         
         try {
-            p = (PreparedStatement) con.prepareStatement(query);
-            p.setString(1,titulo);
-            p.setString(2,resumo);
-            p.setString(3,dataEntrega);
-            p.setString(4,dataDefesa);
-            p.setString(5,nota);
-            p.setInt(6,aluno);
-            p.setInt(7,orientador);
+            p = (PreparedStatement) con.prepareStatement(query); 
             p.executeUpdate();
         } catch (SQLException ex) {
-            Logger.getLogger(CadastrarTrabalho.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(CadastrarAluno.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         
@@ -90,11 +81,10 @@ public class CadastrarTrabalho extends HttpServlet {
         response.getWriter().println("      <link href=\"./style/navbar.css\" rel=\"stylesheet\">");
         response.getWriter().println("  </head>");
         response.getWriter().println("  <body>");
-        response.getWriter().println("      <h1>Trabalho cadastrado com sucesso!</h1>");
+        response.getWriter().println("      <h1>Dados do aluno foram alterados com sucesso!</h1>");
         response.getWriter().println("      <a href=\"./page/home.jsp\">Voltar para home</a>");
         response.getWriter().println("  </body>");
         response.getWriter().println("</html>");
-        //response.sendRedirect("");
     }
 
     /**

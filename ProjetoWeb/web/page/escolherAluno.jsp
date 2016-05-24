@@ -1,12 +1,19 @@
 <%-- 
-    Document   : cadastrarTrabalho
-    Created on : May 10, 2016, 3:24:37 PM
+    Document   : escolherAluno
+    Created on : 24/05/2016, 00:25:57
+    Author     : Fabio Barros
+--%>
+
+<%-- 
+    Document   : consultarAluno
+    Created on : May 10, 2016, 3:23:11 PM
     Author     : fabio
 --%>
 
-<%@page import="java.sql.ResultSet"%>
+<%@page import="java.util.ArrayList"%>
 <%@page import="java.sql.Connection"%>
 <%@page import="db.ConectaBanco"%>
+<%@page import="java.sql.ResultSet"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <!DOCTYPE html>
@@ -15,7 +22,7 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+        
         <meta name="description" content="TCC Manager">
         <meta name="author" content="Fabio Barros">
         <link rel="icon" href="../../favicon.ico">
@@ -24,54 +31,11 @@
 
         <!-- Bootstrap core CSS -->
         <link href="../style/bootstrap.min.css" rel="stylesheet">
-        
+
         <!-- Custom styles for this template -->
         <link href="../style/navbar.css" rel="stylesheet">
 
         <script src="../../assets/js/ie-emulation-modes-warning.js"></script>
-        
-        <script language="JavaScript"> // Código Javascript para validar dados
-            <!--
-            function checker()
-            {
-                
-                var regExpDate = /^(\d{1,2})\/(\d{1,2})\/(\d{4})$/;
-               
-                var resultDataEntrega = document.form1.dataEntrega.value.match(regExpDate);
-                var resultDataDefesa = document.form1.dataDefesa.value.match(regExpDate);
-                var resultTitulo = document.form1.titulo.value.toString();
-                var resultNota = document.form1.nota.value.toString();
-                var n = resultTitulo.length;
-                var gradeSize = resultNota.length;
-                var grade = parseFloat(resultNota);
-   
-                if(n==0){
-                    alert("Preencha o campo nome!");
-                    return false;
-                }else if(resultDataEntrega == null){
-                    alert("Data de entrega invalida!");
-                    document.form1.dataEntrega.value = "";
-                    return false;
-                }else if(resultDataDefesa == null){
-                    alert("Data de defesa inválida!");
-                    document.form1.dataEntrega.value = "";
-                    return false;
-                }else if(gradeSize == 0){
-                    alert("Preencha o campo nota!");
-                    return false;
-                }else if(grade>10.0){
-                    alert("Nota inválida!");
-                    return false;
-                }else if(grade<0.0){
-                    alert("Nota inválida!");
-                    return false;
-                }else{
-                    document.form1.submit();
-                }
-                
-            }
-            //-->
-        </script>
         
         <style>
             #logout{
@@ -85,16 +49,26 @@
                 background: none;
             }
         </style>
-        
+       
     </head>
 
     <body>
         <%
             String nome = session.getAttribute("nomeUsuario").toString();
+            
+            ArrayList<String> cursos = new ArrayList<String>();
+            
+            
+            cursos.add("Engenharia Elétrica");
+            cursos.add("Engenharia Mecânica");
+            cursos.add("Engenharia de Computação");
+            cursos.add("Engenharia de Controle e Automação");
+            cursos.add("Engenharia Eletrônica");
+            cursos.add("Engenharia de Software");
         %>
         <div class="container">
 
-            <!-- Barra de navegação estática -->
+          <!-- Barra de navegação estática -->
             <nav class="navbar navbar-default">
                 <div class="container-fluid">
                     <div class="navbar-header">
@@ -130,8 +104,10 @@
                                     out.println("<a href=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\" role=\"button\" aria-haspopup=\"true\" aria-expanded=\"false\">"+nome+"<span class=\"caret\"></span></a>");
                                 %>
                                 <ul class="dropdown-menu">
+                                 
                                     <li>
-                                        <form action="../Logout" method="POST"> 
+                                        <form action="../Logout" method="POST">
+                                            
                                             <button type="submit" class="btn btn-default" id="logout">Logout</button>
                                         </form>
                                     </li>
@@ -144,64 +120,38 @@
             </nav>
 
             <!-- Componente principal da página -->
-            <div class="jumbotron">
-                <h3>Cadastrar trabalho de conclusão de curso:</h3>
+            <div class="jumbotron"> 
+                <h3>Escolha um aluno para alterar</h3>
                 <br>
                 <%
-                    
-                    request.getSession().setAttribute("orientador",session.getAttribute("orientador"));
-                    
-                %>
-                <form name="form1" role="form" action="../CadastrarTrabalho" method="POST" onsubmit="return checker()">
-                    <fieldset class="form-group">
-                        <label for="formGroupExampleInput">Título: </label>
-                        <input type="text" class="form-control" id="titulo" name="titulo" placeholder="Título do trabalho">
-                    </fieldset>
-                    <fieldset class="form-group">
-                        <label for="exampleTextarea">Resumo: </label>
-                        <textarea class="form-control" id="resumo" name="resumo" rows="5" placeholder="Digite aqui um resumo do trabalho"></textarea>
-                    </fieldset>
+                    ResultSet rs;
+                    int id=0;
+                    String pesquisa;
+                    ConectaBanco db = new ConectaBanco();
+                    Connection con = db.conectaBD(); 
+                %> 
+                <form action="alterarAluno.jsp">
                     <fieldset class="form-group">
                         <div class="form-group">
-                            <label for="sel1">Aluno:</label>
+                            <label for="aluno">Aluno</label>
                             <select class="form-control" id="aluno" name="aluno">
-                                <%
-                                    ResultSet rs;
-                                    String alunoNome;
-                                    int id;
-                                    ConectaBanco db = new ConectaBanco();
-                                    Connection con = db.conectaBD();
-                                    
+                                <%   
                                     rs = db.selectData(con,"SELECT idAluno, nomeAluno FROM Aluno");
-                                        
-                                    out.println("<option> --- </option>");   
+                                    out.println("<option value\"---\"> --- </option>"); 
                                     while(rs.next()){
-                                        id = rs.getInt("idAluno");
-                                        alunoNome = rs.getString("nomeAluno");
-                                        out.println("<option value=\""+id+"\">"+alunoNome+"</option>");
-                                    }
+                                        out.println("<option value=\""+rs.getInt("idAluno")+"\">"+rs.getString("nomeAluno")+"</option>");
+                                    }                               
                                 %>
-                               
-                            </select>
 
+                            </select>
                         </div>
                     </fieldset>
-                    <fieldset class="form-group">
-                        <label for="formGroupExampleInput2">Data de entrega: </label>
-                        <input type="text" class="form-control" id="dataEntrega" name="dataEntrega" placeholder="Data de entrega DD/MM/AAAA">
-                    </fieldset>
-                    <fieldset class="form-group">
-                        <label for="formGroupExampleInput2">Data de defesa: </label>
-                        <input type="text" class="form-control" id="dataDefesa" name="dataDefesa" placeholder="Data de defesa DD/MM/AAAA">
-                    </fieldset>
-                    <fieldset class="form-group">
-                        <label for="formGroupExampleInput2">Nota: </label>
-                        <input type="text" class="form-control" id="nota" name="nota" placeholder="Nota (0 a 10)">
-                    </fieldset>
-                    <button type="submit" class="btn btn-default">Cadastrar Trabalho</button>
+                    <button type="submit" class="btn btn-default">Alterar informações</button> 
                 </form>
-                
+                <br>
+ 
             </div>
+
         </div>
 
 
@@ -215,3 +165,4 @@
         <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
     </body>
 </html>
+

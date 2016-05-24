@@ -11,17 +11,16 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-        <meta name="description" content="">
-        <meta name="author" content="">
+        
+        <meta name="description" content="TCC Manager">
+        <meta name="author" content="Fabio Barros">
         <link rel="icon" href="../../favicon.ico">
 
         <title>TCC Manager</title>
         <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
         <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-
-
+        
         <!-- Custom styles for this template -->
         <link href="../style/signin.css" rel="stylesheet">
 
@@ -41,6 +40,6 @@
                 <button class="btn btn-lg btn-primary btn-block" type="submit">Entrar</button>
             </form>
 
-        </div> <!-- /container -->
+        </div>
     </body>
 </html>

@@ -53,7 +53,6 @@ public class CadastrarAluno extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        //response.setContentType("text/html;charset=UTF-8");
         request.setCharacterEncoding( "UTF-8" );
         
         ConectaBanco db = new ConectaBanco();
@@ -86,11 +85,13 @@ public class CadastrarAluno extends HttpServlet {
         } catch (SQLException ex) {
             Logger.getLogger(CadastrarAluno.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        
+      
+                
         response.getWriter().println("<!DOCTYPE html>");
         response.getWriter().println("<html>");
-        response.getWriter().println("  <head>");
+        response.getWriter().println("  <head>"); 
+        response.getWriter().println("      <link href=\"./style/bootstrap.min.css\" rel=\"stylesheet\">");
+        response.getWriter().println("      <link href=\"./style/navbar.css\" rel=\"stylesheet\">");
         response.getWriter().println("  </head>");
         response.getWriter().println("  <body>");
         response.getWriter().println("      <h1>Aluno cadastrado com sucesso!</h1>");

@@ -8,3 +8,5 @@ SELECT * from TCC;
 DELETE FROM Professor;
 DELETE FROM Aluno;
 DELETE FROM TCC;
+
+UPDATE Aluno SET nomeAluno="José Souza" WHERE idAluno = 1;

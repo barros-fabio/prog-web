@@ -16,9 +16,9 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-        <meta name="description" content="">
-        <meta name="author" content="">
+        
+        <meta name="description" content="TCC Manager">
+        <meta name="author" content="Fabio Barros">
         <link rel="icon" href="../../favicon.ico">
 
         <title>TCC Manager</title>
@@ -26,23 +26,12 @@
         <!-- Bootstrap core CSS -->
         <link href="../style/bootstrap.min.css" rel="stylesheet">
 
-        <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-        <link href="../../assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
-
         <!-- Custom styles for this template -->
         <link href="../style/navbar.css" rel="stylesheet">
 
-        <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
-        <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
         <script src="../../assets/js/ie-emulation-modes-warning.js"></script>
-
-        <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-        <!--[if lt IE 9]>
-          <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-          <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-        <![endif]-->
         
-        <script language="JavaScript">
+        <script language="JavaScript"> //Código Javascript para validação de dados
             <!--
             function checker()
             {
@@ -59,11 +48,7 @@
                 var tamanhoRA = resultRA.length;
                 var tamanhoPeriodo = resultPeriodo.length;
                 var tamanhoCurso = resultCurso.length;
-                //var resultDataEntrega = document.form1.dataEntrega.value.match(regExpDate);
-                //var resultDataDefesa = document.form1.dataDefesa.value.match(regExpDate);
-   
-   
-                alert(resultCurso);
+
                 if(tamanhoNome==0){
                     alert("Preencha o campo nome!");
                     return false;
@@ -87,6 +72,19 @@
             //-->
         </script>
         
+        <style>
+            #logout{
+                border: none;
+                background: none;
+                margin-left: 5%;
+   
+            }
+            
+            #logout:hover{
+                background: none;
+            }
+        </style>
+        
     </head>
 
     <body>
@@ -106,8 +104,13 @@
             cursos.add("Engenharia de Controle e Automação");
             cursos.add("Engenharia Eletrônica");
             cursos.add("Engenharia de Software");
+            
+
+            request.getSession().setAttribute("aluno", request.getParameter("aluno"));
+            System.out.println("idAluno "+request.getParameter("aluno"));    
     
         %>
+        
         <div class="container">
 
           <!-- Barra de navegação estática-->
@@ -127,8 +130,9 @@
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Alunos<span class="caret"></span></a>
                                 <ul class="dropdown-menu">
-                                  <li><a href="cadastrarAluno.jsp">Cadastrar</a></li>
-                                  <li><a href="consultarAluno.jsp">Consultar</a></li>                
+                                    <li><a href="cadastrarAluno.jsp">Cadastrar</a></li>
+                                    <li><a href="consultarAluno.jsp">Consultar</a></li>  
+                                    <li><a href="escolherAluno.jsp">Alterar</a></li>
                                 </ul>
                             </li>
                             <li class="dropdown">
@@ -145,29 +149,59 @@
                                     out.println("<a href=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\" role=\"button\" aria-haspopup=\"true\" aria-expanded=\"false\">"+nome+"<span class=\"caret\"></span></a>");
                                 %>
                                 <ul class="dropdown-menu">
-                                    <li><a href="perfil.jsp">Meu Perfil</a></li>
-                                    <li role="separator" class="divider"></li>
                                     <li>
                                         <form action="../Logout" method="POST">
-                                            
-                                            <button type="submit" class="btn btn-default">Logout</button>
+                                            <button type="submit" class="btn btn-default" id="logout">Logout</button>
                                         </form>
                                     </li>
                                     
                                 </ul>
                             </li>    
                         </ul>
-                    </div><!--/.nav-collapse -->
-                </div><!--/.container-fluid -->
+                    </div>
+                </div>
             </nav>
 
             <!-- Componente principal, onde está o form -->
             <div class="jumbotron">
-                 <h3>Alterar aluno: </h3>
-                
+                <h3>Inserir novos dados do aluno: </h3>
+                <br>
+               
+                <form name="formCadastroAluno" role="form" action="../AlterarAluno" method="POST" onsubmit="return checker()">
+                    <fieldset class="form-group">
+                        <label for="formGroupExampleInput">Nome: </label>
+                        <input type="text" class="form-control" id="nome" name="nome" placeholder="Nome">
+                    </fieldset>
+                    <fieldset class="form-group">
+                        <label for="formGroupExampleInput2">CPF: </label>
+                        <input type="text" class="form-control" id="cpf" name="cpf" placeholder="CPF">
+                    </fieldset>
+                    <fieldset class="form-group">
+                        <label for="formGroupExampleInput2">RA: </label>
+                        <input type="text" class="form-control" id="ra" name="ra" placeholder="RA (Código do Aluno)">
+                    </fieldset>
+                    <fieldset class="form-group">
+                        <div class="form-group">
+                            <label for="sel1">Curso:</label>
+                            <select class="form-control" id="curso" name="curso">
+                                <%      
+                                    out.println("<option value\"---\"> --- </option>");   
+                                    for(int i=0;i<cursos.size();i++){
+                                        out.println("<option value=\""+i+"\">"+cursos.get(i).toString()+"</option>");
+                                    }                                
+                                %>
+                            </select>
+                        </div>
+                    </fieldset>
+                    <fieldset class="form-group">
+                        <label for="formGroupExampleInput2">Período: </label>
+                        <input type="text" class="form-control" id="periodo" name="periodo" placeholder="Período">
+                    </fieldset>
+                    <button type="submit" class="btn btn-default">Confirmar novos dados</button>                 
+                </form>
             </div>
 
-        </div> <!-- /container -->
+        </div> 
 
 
         <!-- Bootstrap core JavaScript

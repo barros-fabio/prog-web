@@ -17,8 +17,8 @@
         <servlet-class>servlets.Logout</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>ConsultarTrabalho</servlet-name>
-        <servlet-class>servlets.ConsultarTrabalho</servlet-class>
+        <servlet-name>AlterarAluno</servlet-name>
+        <servlet-class>servlets.AlterarAluno</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>Login</servlet-name>
@@ -37,8 +37,8 @@
         <url-pattern>/Logout</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>ConsultarTrabalho</servlet-name>
-        <url-pattern>/ConsultarTrabalho</url-pattern>
+        <servlet-name>AlterarAluno</servlet-name>
+        <url-pattern>/AlterarAluno</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
