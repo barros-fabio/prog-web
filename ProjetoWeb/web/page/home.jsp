@@ -53,13 +53,17 @@
             }
             
             .link-alterar{
-                text-align: right;
-                color: black;
-                
+                float: right; 
             }
             
+            .link-alterar:link{
+                color: #333333;
+                text-decoration: none;
+            }
+  
             .link-alterar:hover{
-                background-color: #f2f2f2;
+                background-color: #e6e6e6;
+                text-decoration: none;
             }
         </style>
     </head>
