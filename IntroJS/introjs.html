@@ -1,0 +1,16 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<script type="text/javascript">
+			function nome(){
+				var nomePessoa = prompt("Qual é o seu nome?");
+				//var nomePessoa = document.getElementById("entrada").value;
+				document.getElementById("resposta").innerHTML = "Olá, "+nomePessoa+" Seja bem-vindo!"
+			}
+		</script>
+	</head>
+	<body onload="nome()">
+		<p id = "resposta"> </p>
+	</body>
+</html>

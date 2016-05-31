@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+	<head>
+
+		<style>
+			#botao {
+				border: 1px solid black;
+				z-index: -2;
+			}
+
+			.externo{
+				background-color: black;
+				display: block;
+				
+				width: 100%;
+				height: 100%;
+				z-index: 1;
+			}
+
+			.interno{
+				background-color: none;
+				display: none;
+				width: 40%;
+				height: 40%
+				z-index: -1;
+			}
+
+		</style>
+	</head>
+	<body>
+		
+		<div id="divfora" class = "externo"> 
+			<!--<input id ="botao" type="submit" value="Clique aqui" onclick="modal()"></input>-->
+			<!--<div id="divdentro" class = "interno"> Dialog supimpa</div>-->
+		</div>
+
+		<script type="text/javascript">
+
+			function modal(){
+				//document.getElementById("botao").setAttribute("class", "red");
+				document.getElementById("divfora").style.display ="block";
+				document.getElementById("divdentro").style.display ="block";
+			}
+			
+		</script>
+	</body>
+</html>
