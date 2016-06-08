@@ -2,19 +2,41 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
+		<style>
+			span{
+				background-color: yellow;
+			}
+		</style>
 	</head>
 	<body>
 		<input type="text" id="busca" placeholder="Digite uma palavra para buscar">
-		<input type="submit" id="enviar" value="Buscar Texto">
+		<input type="submit" id="enviar" value="Buscar Texto" onclick="buscarTexto()">
 		<p id="texto">Copie e cole um texto em um arquivo HTML.</p>
+		<p id="contaPalavras"></p>
 
 
 		<script type="text/javascript">
-			var cont = 0;
-			function contador(){
-				cont++;
-				document.getElementById("cont").innerHTML = "Botão Contador ("+cont+")";
+			
+			function buscarTexto(){	
+
+				var textoProcurado = document.getElementById("busca").value;
+				var texto = document.getElementById("texto").innerHTML;
+				
+				
+    			var txt = texto.replace(new RegExp(textoProcurado,'g'),"<span>"+textoProcurado+"</span>");
+    			document.getElementById("texto").innerHTML = txt;
+    			
+    			/*var res = texto.split(" ");
+
+    			var cont = 0;
+    			for(int i = 0;i<res.length;i++){
+    				if(res[i]==textoProcurado)
+    					cont++;
+    			}
+    			document.getElementById("contaPalavras").innerHTML = "Número de palavras encontradas: "+cont;*/
 			}
+
+			
 
 		</script>
 	</body>
