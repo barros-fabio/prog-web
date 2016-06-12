@@ -3,7 +3,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">"
-        <title>JSP Page</title>
+        <title>The Guardian News</title>
         <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
         <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
@@ -12,25 +12,51 @@
 
         <script>
             var xhttp;
-
-            if(window.XMLHttpRequest())
+            
+            
+            if(window.XMLHttpRequest)
                 xhttp = new XMLHttpRequest();
             else if(window.ActiveXObject)
                 xhttp = new ActiveXObject("MSXML2.XMLHTTP.3.0");
             else throw "AJAX Não suportado!";
-
+            
             xhttp.onreadystatechange = processaRequisicao;
+            xhttp.open("GET","http://content.guardianapis.com/search?api-key=test", true);
+            xhttp.send();   
+            
 
             function processaRequisicao(){
-                xhttp.open("GET","http://content.guardianapis.com/search?api-key=test", true);
-                xhttp.send();           
+                if(xhttp.readyState == 4){ // Processado e completo
+                    if(xhttp.status == 200){ // Tudo OK
+                        console.log("Sucesso");
+                        var resposta = xhttp.responseText;
+                        resposta = JSON.parse(resposta);
+                        
+                        var i;
+                        var out="";
+                        for(i = 0; i<resposta.length;i++){
+                            out += '<p>' + resposta.results[i].webTitle + '</p><br>';
+                        }
+                        document.getElementById("teste").innerHTML = out;
+                    }else
+                        console.log("Alguma coisa aconteceu!");
+                }  
+                else if(xhttp.readyState == 1) // Carregando
+                    console.log("Carregando");
+                else if(xhttp.readyState == 2) // Carregado
+                    console.log("Carregado");  
+                else if(xhttp.readyState == 0) // Não inicializado
+                    console.log("Carregado");           
             }
 
         </script>
+
+
+
         <div class="container">
             <h3>The Guardian</h3>
             <br>
-
+            <div id="teste">blablbala</div>
             <ul class="list-group">  
                 <li class="list-group-item"></li>
             </ul>
