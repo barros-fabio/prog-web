@@ -11,9 +11,55 @@ and open the template in the editor.
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body>
-        <form action="./Alunos" method="GET">
+        <form onsubmit ="processaRequisicao()">
             <input type="submit" value="Recuperar Alunos">
         </form>
+        <form action="./Alunos" method="POST">
+            <input type="text" placeholder="Nome do Aluno" name="nome">
+            <input type="text" placeholder="Curso do Aluno" name="curso">
+            <input type="submit" value="Cadastrar Aluno">
+        </form>
+        
+        <div id="resultado"></div>
+        <script>
+            
+    
+  
+            function processaRequisicao(){
+                var xhttp;
+                if(window.XMLHttpRequest)
+                    xhttp = new XMLHttpRequest();
+                else if(window.ActiveXObject)
+                    xhttp = new ActiveXObject("MSXML.2.XMLHTTP.3.0");
+                else throw "AJAX não suportado!";
+            
+                xhttp.onreadystatechange = function(){
+                    if(xhttp.readyState==4){
+                        if(xhttp.status ==200){
+                            console.log("Sucesso!");
+                            var resposta = xhttp.responseText;
+                            resposta = JSON.parse(resposta);
+                            var i;
+                            var out=""
+                            for(i=0;i<resposta.length;i++){
+                                out = '<p>'+resposta[i].nome+'</p><br>';
+                            }
+                            document.getElementById("resultado").innerHTML= xhttpResponseText;
+                        }else
+                            console.log("Algo de errado aconteceu!");
+                    }else if(xhttp.readyState==1)
+                        console.log("Carregando");
+                    else if(xhttp.readyState==2)
+                        console.log("Carregado");
+                    else if(xhttp.readyState==0)
+                        console.log("Carregado");
+                    xhttp.open("GET", "http://localhost:8080/AulaAjax/Alunos",true);
+                    xhttp.send();
+                };
+            }
+   
+            
+        </script>
         
     </body>
 </html>

@@ -25,32 +25,6 @@ public class Alunos extends HttpServlet {
     ArrayList<Aluno> listAlunos = new ArrayList<Aluno>();
     
     
-    
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet Alunos</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet Alunos at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
-    }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -64,7 +38,10 @@ public class Alunos extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+        listAlunos.add(new Aluno("Fabio","Eng. Computação"));
+        listAlunos.add(new Aluno("Bruno","Eng. Computação"));
+        listAlunos.add(new Aluno("José","Eng. Computação"));
+        listAlunos.add(new Aluno("João","Eng. Elétrica"));
         /*PrintWriter out = response.getWriter();
         out.println("<!DOCTYPE html>");
         out.println("<html>");
@@ -77,10 +54,7 @@ public class Alunos extends HttpServlet {
         out.println("</html>");
         */
         
-        listAlunos.add(new Aluno("Fabio","Eng. Computação"));
-        listAlunos.add(new Aluno("Bruno","Eng. Computação"));
-        listAlunos.add(new Aluno("José","Eng. Computação"));
-        listAlunos.add(new Aluno("João","Eng. Elétrica"));
+        
         
         JSONObject root = new JSONObject();
         JSONObject object = new JSONObject();
@@ -88,7 +62,9 @@ public class Alunos extends HttpServlet {
         
         for(int i = 0; i<listAlunos.size();i++){
             object.put("nome",listAlunos.get(i).getNome());
+            System.out.println(listAlunos.get(i).getNome());
             object.put("curso",listAlunos.get(i).getCurso());
+            System.out.println(listAlunos.get(i).getCurso());
             array.add(object);
         }    
         
@@ -119,11 +95,10 @@ public class Alunos extends HttpServlet {
         out.println("<br>");
         out.println("<ul class=\"list-group\">");
         */
+        String rootJson = root.toString();
         response.setContentType("application/json");
-        PrintWriter out = response.getWriter();
-               
-        out.print(root);
-        out.flush(); 
+        response.setCharacterEncoding("UTF-8");
+        response.getWriter().write(rootJson);
         
     }
 
@@ -138,6 +113,18 @@ public class Alunos extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        listAlunos.add(new Aluno(request.getParameter("nome"),request.getParameter("curso")));
+        PrintWriter out = response.getWriter();
+        out.println("<!DOCTYPE html>");
+        out.println("<html>");
+        out.println("<head>");
+        out.println("<title>Servlet Alunos</title>");        
+        out.println("</head>");
+        out.println("<body>");
+        out.println("<p>Aluno"+request.getParameter("nome")+"cadastrado com sucesso!</p>");
+        out.println("</body>");
+        out.println("</html>");
+        
         
     }
 

@@ -34,9 +34,11 @@
                         
                         var i;
                         var out="";
-                        for(i = 0; i<resposta.length;i++){
-                            out += '<p>' + resposta.results[i].webTitle + '</p><br>';
+                        for(i = 0; i<resposta.response.results.length;i++){
+                            out += '<p>' + resposta.response.results[i].webTitle + '</p><br>';
+                            console.log(resposta.response.results[i].webTitle);
                         }
+                        //console.log(resposta.response.results[0].webTitle);
                         document.getElementById("teste").innerHTML = out;
                     }else
                         console.log("Alguma coisa aconteceu!");
