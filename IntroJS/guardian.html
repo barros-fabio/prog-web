@@ -20,10 +20,21 @@
             else throw "AJAX Não suportado!";
 
             xhttp.onreadystatechange = processaRequisicao;
+            xhttp.open("GET","http://content.guardianapis.com/search?api-key=test", true);
+            xhttp.send();
 
             function processaRequisicao(){
-                xhttp.open("GET","http://content.guardianapis.com/search?api-key=test", true);
-                xhttp.send();           
+                if(xhttp.readyState == 4){
+                    console.log(xhttp.responseText);
+                    
+                }
+                else if(xhttp.readyState==1)
+                    console.log("Carregando");
+                else if(xhttp.readyState==2)
+                    console.log("Carregado");
+                else if(xhttp.readyState==0)
+                    console.log("Carregado");
+
             }
 
         </script>
