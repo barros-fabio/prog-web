@@ -22,7 +22,7 @@
 				var textoProcurado = document.getElementById("busca").value;
 				var texto = document.getElementById("texto").innerHTML;
 				
-				
+				console.log(textoProcurado);
     			var txt = texto.replace(new RegExp(textoProcurado,'g'),"<span>"+textoProcurado+"</span>");
     			document.getElementById("texto").innerHTML = txt;
     			
