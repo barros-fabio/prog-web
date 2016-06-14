@@ -42,8 +42,8 @@ public class Alunos extends HttpServlet {
         listAlunos.add(new Aluno("Bruno","Eng. Computação"));
         listAlunos.add(new Aluno("José","Eng. Computação"));
         listAlunos.add(new Aluno("João","Eng. Elétrica"));
-        /*PrintWriter out = response.getWriter();
-        out.println("<!DOCTYPE html>");
+        PrintWriter out = response.getWriter();
+        /*out.println("<!DOCTYPE html>");
         out.println("<html>");
         out.println("<head>");
         out.println("<title>Servlet Alunos</title>");        
@@ -98,7 +98,8 @@ public class Alunos extends HttpServlet {
         String rootJson = root.toString();
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
-        response.getWriter().write(rootJson);
+        out.println(rootJson);
+        
         
     }
 
