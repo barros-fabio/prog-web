@@ -1,0 +1,59 @@
+<html>
+  <head>
+  		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+		<!-- Optional theme -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+
+  <!-- Carregar Biblioteca -->
+     <script src="https://code.jquery.com/jquery-2.2.4.js"></script>
+
+		<style>
+			p {
+    position: relative;
+    width: 400px;
+    height: 90px;
+    font-size: 15px;
+  }
+  div {
+    position: absolute;
+    width: 400px;
+    height: 65px;
+    font-size: 36px;
+    text-align: center;
+    color: white;
+    background: red;
+    padding-top: 5px;
+    padding-bottom: 20px;
+    top: 0;
+    left: 0;
+    display: none;
+  }
+  span {
+    display: none;
+  }
+		</style>
+  </head>
+  
+  <body>
+
+  	 <p>
+        Esta é uma notícia do Estadão! 
+        <a href="#">Leia mais...</a>
+
+        <div><span>ADBLock Detectado!</span></div>
+    </p>
+ 
+  	 <script type="text/javascript">  		
+        $( "a" ).click(function() {
+            
+            $( "div" ).fadeIn( 1000, function() {
+                
+                $( "span" ).fadeIn( 100 );
+            });
+            return false;
+        });
+  	 </script>
+  </body>
+</html>

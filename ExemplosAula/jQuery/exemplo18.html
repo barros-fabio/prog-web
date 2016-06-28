@@ -1,0 +1,47 @@
+<html>
+  <head>
+  		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+		<!-- Optional theme -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+
+  <!-- Carregar Biblioteca -->
+     <script src="https://code.jquery.com/jquery-2.2.4.js"></script>
+
+		<style>
+		div {
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    float: left;
+    display: none;
+  }
+  .first {
+    background-color: #3f3;
+    left: 0;
+  }
+  .second {
+    background-color: #33f;
+    left: 80px;
+  }
+		</style>
+  </head>
+  
+  <body>
+    
+    <p><button>Run</button></p>
+    <div class="first"></div>
+    <div class="second"></div>
+     
+    <script>
+      $( "button" ).click(function() {
+          // O primeiro DIV é mostrado com um delay de 1s
+          $( "div.first" ).delay( 1000 ).slideDown( 300 );
+          // O segundo DIV é mostrado sem delay
+          $( "div.second" ).slideDown( 300 );
+      });
+    </script>
+  	 
+  </body>
+</html>
