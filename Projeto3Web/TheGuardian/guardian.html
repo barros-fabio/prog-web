@@ -12,9 +12,15 @@
                 max-width: 70%;
                 margin: 0 auto;
             }
+
         </style>
     </head>
     <body>
+        <!-- Carregar o Vue.js -->
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/vue/1.0.25/vue.min.js"></script>
+        <!-- Carregar o Vue Resource -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-resource/0.8.0/vue-resource.min.js"></script>
+        <script src="ajax.js"></script>
         <!--Código de um template para Navbar: http://www.prepbootstrap.com/bootstrap-template/searchnavbar-->
         <nav id="navBar" class="navbar navbar-default" role="navigation">
             <div class="navbar-header">
@@ -23,6 +29,14 @@
                 </button>
                 <a class="navbar-brand" href="#">Notícias The Guardian</a>
             </div>
+            <ul class="nav navbar-nav">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Seções<span class="caret"></span></a>
+                    <ul class="dropdown-menu" id="sectionList">
+                      <li class="list-group-item" v-for="categoria in sections">{{ categoria.webTitle }}</li> <!-- Utilizar Select e V-Model-->
+                    </ul>
+                </li>
+            </ul>
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <div class="col-sm-3 col-md-3 pull-right">
                     <form class="navbar-form" role="search" id="formulario">
@@ -37,7 +51,7 @@
             </div>
         </nav>
         <!-- Fim template -->
-        
+        <!--
         <script>
             var xhttp;
             
@@ -95,14 +109,52 @@
             }
 
         </script>
+		-->
 
-        <div class="container">
+        <div class="container" id="app">
             <h3 id="titulo">Últimas notícias</h3>
             <br>
+            <form role="form">
+                <label class="checkbox-inline">
+                  <input type="checkbox" value="1">Business
+                </label>
+                <label class="checkbox-inline">
+                  <input type="checkbox" value="2">Politics
+                </label>
+                <label class="checkbox-inline">
+                  <input type="checkbox" value="3">Football
+                </label>
+            </form>
+            <br>
             <ul id="lista" class="list-group">  
-                <li class="list-group-item"></li>
+                <li class="list-group-item" v-for="noticia in news">{{ noticia.webTitle }}</li>
             </ul>
+
+            <nav>
+			  <ul class="pagination pagination-lg">
+			    <li class="page-item" v-show="paginaAtual>1">
+			      <button @click="previousPage(noticia.currentPage)" class="page-link" aria-label="Previous">
+			        <span aria-hidden="true">&laquo;</span>
+			        <span class="sr-only">Anterior</span>
+			      </button>
+			    </li>
+			    
+			    <li class="page-item">
+			      <button @click="nextPage()" class="page-link" aria-label="Next">
+			        <span aria-hidden="true">&raquo;</span>
+			        <span class="sr-only">Próxima</span>
+			      </button>
+			    </li>
+			  </ul>
+			</nav>
         </div>
+
+        <!-- Carregar o Vue.js -->
+      	<script src="http://cdnjs.cloudflare.com/ajax/libs/vue/1.0.25/vue.min.js"></script>
+      	<!-- Carregar o Vue Resource -->
+      	<script src="https://cdnjs.cloudflare.com/ajax/libs/vue-resource/0.8.0/vue-resource.min.js"></script>
+      	<script src="ajax.js"></script>
+
 
     </body>
 </html>

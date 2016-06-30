@@ -17,6 +17,10 @@ new Vue({
       		}
       	);
   	}
+  },
+
+  ready: function(){
+    this.load();
   }
 })
 
