@@ -6,8 +6,45 @@ new Vue({
 		url: 'http://content.guardianapis.com/search?api-key=test',
 		sectionUrl: 'http://content.guardianapis.com/sections?api-key=test',
 		paginaAtual: 1,
+		radio: '',
+		selectedSection: '',
+		currentSection: '',
 		news: [],
-		sections: []
+		sections: [],
+		sectionsId: []
+		
+	},
+
+	watch: {
+		radio: function(){
+			this.$http.get('http://content.guardianapis.com/search?section='+this.radio+'&api-key=test').then(
+				function(response){
+					this.news = response.data.response.results; 
+				},
+
+				function(error){
+					console.log("Ocorreu um erro!");
+				}
+		)
+
+		},
+
+		selectedSection: function(){
+
+			this.$http.get('http://content.guardianapis.com/search?section='+this.selectedSection.toLowerCase()+'&api-key=test').then(
+
+				function(response){
+					this.news = response.data.response.results; 
+					
+				},
+
+				function(error){
+					console.log("Ocorreu um erro!");
+				}
+			)
+
+		},
+
 	},
 
 	methods: {
@@ -35,6 +72,7 @@ new Vue({
 			)
 
 		},
+
 
 		nextPage: function(){
 			this.paginaAtual +=1;
@@ -68,6 +106,7 @@ new Vue({
 	ready: function(){ // Executado ao carregar a aplicação
 		this.load();
 		this.loadSections();
+		
 	}
 
 })
