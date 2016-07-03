@@ -6,8 +6,8 @@ new Vue({
 		url: 'http://content.guardianapis.com/search?api-key=test',
 		sectionUrl: 'http://content.guardianapis.com/sections?api-key=test',
 		paginaAtual: 1,
-		radio: '',
-		selectedSection: '',
+		radio: 'radio',
+		selectedSection: 'padrao',
 		currentSection: '',
 		news: [],
 		sections: [],
@@ -45,6 +45,16 @@ new Vue({
 
 		},
 
+		nextP: function(){
+			console.log("Selecionado "+this.selectedSection);
+			console.log("Selecionado radio "+this.radio);
+		},
+
+		previousP: function(){
+			console.log("Selecionado "+this.selectedSection);
+			console.log("Selecionado radio "+this.radio);
+		},
+
 	},
 
 	methods: {
@@ -76,29 +86,104 @@ new Vue({
 
 		nextPage: function(){
 			this.paginaAtual +=1;
-			this.$http.get('http://content.guardianapis.com/search?page='+this.paginaAtual+'&api-key=test').then(
-				function(response){
-					this.news = response.data.response.results; 
-				},
+			
+			if(this.radio!="radio" && this.selectedSection=="padrao"){
+				this.$http.get('http://content.guardianapis.com/search?section='+this.radio+'&page='+this.paginaAtual+'&api-key=test').then(
+					function(response){
+						this.news = response.data.response.results; 
+					},
 
-				function(error){
-					console.log("Ocorreu um erro!");
-				}
-			)			
+					function(error){
+						console.log("Ocorreu um erro!");
+					}
+				)			
+			}else if(this.selectedSection!="padrao" && this.radio=="radio"){
+				this.$http.get('http://content.guardianapis.com/search?section='+this.selectedSection+'&page='+this.paginaAtual+'&api-key=test').then(
+					function(response){
+						this.news = response.data.response.results; 
+
+					},
+
+					function(error){
+						console.log("Ocorreu um erro!");
+					}
+				)
+			}else if(this.selectedSection!="padrao" && this.radio!="radio"){
+				this.$http.get('http://content.guardianapis.com/search?section='+this.radio+'&page='+this.paginaAtual+'&api-key=test').then(
+					function(response){
+						this.news = response.data.response.results; 
+					},
+
+					function(error){
+						console.log("Ocorreu um erro!");
+					}
+				)
+			}else if(this.radio=="radio" && this.selectedSection=="padrao"){
+				this.$http.get('http://content.guardianapis.com/search?page='+this.paginaAtual+'&api-key=test').then(
+					function(response){
+						this.news = response.data.response.results; 
+
+						console.log("Selecionado "+this.selectedSection);
+						console.log("Selecionado radio "+this.radio);
+					},
+
+					function(error){
+						console.log("Ocorreu um erro!");
+					}
+				)	
+			}
+						
 		},
 
 
 		previousPage: function(){
 			this.paginaAtual-=1;
-			this.$http.get('http://content.guardianapis.com/search?page='+this.paginaAtual+'&api-key=test').then(
-				function(response){
-					this.news = response.data.response.results; 
-				},
+			
+			if(this.radio!="radio" && this.selectedSection=="padrao"){
+				this.$http.get('http://content.guardianapis.com/search?section='+this.radio+'&page='+this.paginaAtual+'&api-key=test').then(
+					function(response){
+						this.news = response.data.response.results; 
+					},
 
-				function(error){
-					console.log("Ocorreu um erro!");
-				}
-			)			
+					function(error){
+						console.log("Ocorreu um erro!");
+					}
+				)			
+			}else if(this.selectedSection!="padrao" && this.radio=="radio"){
+				this.$http.get('http://content.guardianapis.com/search?section='+this.selectedSection+'&page='+this.paginaAtual+'&api-key=test').then(
+					function(response){
+						this.news = response.data.response.results; 
+
+					},
+
+					function(error){
+						console.log("Ocorreu um erro!");
+					}
+				)
+			}else if(this.selectedSection!="padrao" && this.radio!="radio"){
+				this.$http.get('http://content.guardianapis.com/search?section='+this.radio+'&page='+this.paginaAtual+'&api-key=test').then(
+					function(response){
+						this.news = response.data.response.results; 
+					},
+
+					function(error){
+						console.log("Ocorreu um erro!");
+					}
+				)
+			}else if(this.radio=="radio" && this.selectedSection=="padrao"){
+				this.$http.get('http://content.guardianapis.com/search?page='+this.paginaAtual+'&api-key=test').then(
+					function(response){
+						this.news = response.data.response.results; 
+
+						console.log("Selecionado "+this.selectedSection);
+						console.log("Selecionado radio "+this.radio);
+					},
+
+					function(error){
+						console.log("Ocorreu um erro!");
+					}
+				)	
+			}
 		}
 		
 	},

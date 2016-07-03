@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">"
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>The Guardian News</title>
         <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
@@ -29,6 +29,7 @@
 
         </style>
     </head>
+
     <body>
         <!--Código de um template para Navbar: http://www.prepbootstrap.com/bootstrap-template/searchnavbar-->
         <nav id="navBar" class="navbar navbar-default" role="navigation">
@@ -38,15 +39,7 @@
                 </button>
                 <a class="navbar-brand" href="#">Notícias The Guardian</a>
             </div>
-            <!--<ul class="nav navbar-nav">
-                 <!--
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Seções<span class="caret"></span></a>
-                    <ul class="dropdown-menu" id="sectionList">
-                      <li class="list-group-item" v-for="categoria in sections">{{ categoria.webTitle }}</li> <!-- Utilizar Select e V-Model
-                    </ul>
-                </li> 
-            </ul> -->
+
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <div class="col-sm-3 col-md-3 pull-right">
                     <form class="navbar-form" role="search" id="formulario">
@@ -70,68 +63,6 @@
             </form>
                   
         </div>
-        
-
-        <!-- Fim template -->
-        <!--
-        <script>
-            var xhttp;
-            
-            
-            if(window.XMLHttpRequest)
-                xhttp = new XMLHttpRequest();
-            else if(window.ActiveXObject)
-                xhttp = new ActiveXObject("MSXML2.XMLHTTP.3.0");
-            else throw "AJAX Não suportado!";
-            
-            xhttp.onreadystatechange = processaRequisicao;
-            xhttp.open("GET","http://content.guardianapis.com/search?api-key=test", true);
-            xhttp.send();   
-            
-
-            function processaRequisicao(){
-                if(xhttp.readyState == 4){ // Processado e completo
-                    if(xhttp.status == 200){ // Tudo OK
-                        console.log("Sucesso");
-                        var resposta = xhttp.responseText;
-                        resposta = JSON.parse(resposta);
-                        
-                        var i;
-                        var out="";
-                        for(i = 0; i<resposta.response.results.length;i++){
-                            out += '<li class="list-group-item"><a href="'+resposta.response.results[i].webUrl+'">' + resposta.response.results[i].webTitle + '</a></li><br>';
-                            console.log(resposta.response.results[i].webTitle);
-                        }
-
-                        document.getElementById("formulario").addEventListener("submit", function(evt){
-                            evt.preventDefault();
-
-                            var pesquisa = document.getElementById("campoPesquisa").value;
-
-                            xhttp.open("GET","http://content.guardianapis.com/search?q="+pesquisa+"&api-key=test", true);
-                            xhttp.send();
-
-                            
-                            document.getElementById("titulo").innerHTML = "Resultados para '"+pesquisa+"'";
-                            
-                        }); 
-                        
-                        document.getElementById("lista").innerHTML = out;
-                    }else
-                        console.log("Alguma coisa aconteceu!");
-                }  
-                else if(xhttp.readyState == 1) // Carregando
-                    console.log("Carregando");
-                else if(xhttp.readyState == 2) // Carregado
-                    console.log("Carregado");  
-                else if(xhttp.readyState == 0) // Não inicializado
-                    console.log("Carregado");  
-
-
-            }
-
-        </script>
-		-->
 
         <div class="container" id="app">
             <h2 id="titulo">Últimas notícias</h2>
@@ -155,14 +86,14 @@
             <nav>
 			  <ul class="pagination pagination-lg">
 			    <li class="page-item" v-show="paginaAtual>1">
-			      <button @click="previousPage()" class="page-link" aria-label="Previous">
+			      <button @click="previousPage()"  v-model="previousP" class="page-link" aria-label="Previous">
 			        <span aria-hidden="true">&laquo;</span>
 			        <span class="sr-only">Anterior</span>
 			      </button>
 			    </li>
 			    
 			    <li class="page-item">
-			      <button @click="nextPage()" class="page-link" aria-label="Next">
+			      <button @click="nextPage()" v-model="nextP" class="page-link" aria-label="Next">
 			        <span aria-hidden="true">&raquo;</span>
 			        <span class="sr-only">Próxima</span>
 			      </button>
